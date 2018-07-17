@@ -87,9 +87,9 @@
 			totalResults.shooterTurns = shooterTurns;
 
 			console.log("Results after " + shooterTurns + " shooter turns");
-			logResults(totalResults);
 			console.log("default strategy - " + JSON.stringify(earnings, null, "\t"));
 			console.log("ortiz strategy - " + JSON.stringify(ortizEarnings, null, "\t"));
+			logResults(totalResults);
 		}
 
 		function getDefaultEarnings() {
@@ -178,8 +178,8 @@
 			}
 			console.log("totalPointsHit - " + results.totalPointsHit);
 			console.log("pointsHit - " + JSON.stringify(results.pointsHit, null, "\t"));
-			console.log("totalNumbersHit - " + JSON.stringify(results.totalNumbersHit));
-			console.log("numbersHitAfterPointIsSet - " + JSON.stringify(results.numbersHitAfterPointIsSet));
+			console.log("totalNumbersHit - " + JSON.stringify(results.totalNumbersHit, null, "\t"));
+			console.log("numbersHitAfterPointIsSet - " + JSON.stringify(results.numbersHitAfterPointIsSet, null, "\t"));
  			console.log("********************************************************");
 		}
 
