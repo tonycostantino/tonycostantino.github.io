@@ -137,19 +137,7 @@
 
 		function logResults(results) {
  			console.log("********************************************************");
-			console.log("hardFours - " + results.hardFours 
-				+ " - hardSixes - " + results.hardSixes 
-				+ " - hardEights - " + results.hardEights
-				+ " - hardTens - " + results.hardTens
-				+ "\n\nfirstRollPasslineWins - " + results.firstRollPasslineWins
-				+ " - crapOnFirstRoll - " + results.crapOnFirstRoll
-				+ " - firstRollNetWins - " + (results.firstRollPasslineWins - results.crapOnFirstRoll)
-				+ "\n\ntimesRolled - " + results.timesRolled
-				+ " - maxPointsForShooter - " + results.maxPointsForShooter
-				+ " - maxRollsForShooter - " + results.maxRollsForShooter
-				+ " - shooterTurns - " + results.shooterTurns
-				+ " - average Rolls per shooter - " + (results.timesRolled/results.shooterTurns)
-			);			
+		
 
 			var pointGroupsHit = {
 				'FoursAndTens': 0,
@@ -157,9 +145,11 @@
 				'SixesAndEights': 0
 			}
 			var curr = 0;
+			results.totalPointsHit = 0;
 			for(var point in results.pointsHit) {
 				if(results.pointsHit[point] > 0) {
 					curr = results.pointsHit[point];
+					results.totalPointsHit += curr;
 					if (point == 4 || point == 10) {
 						pointGroupsHit.FoursAndTens += curr
 					} 
@@ -169,7 +159,6 @@
 					if (point == 6 || point == 8) {
 						pointGroupsHit.SixesAndEights += curr;
 					} 
-					console.log(point + " - POINT HIT - " + curr);
 				}
 			}
 			for(var pointGroup in pointGroupsHit) {
@@ -177,9 +166,7 @@
 
 			}
 			console.log("totalPointsHit - " + results.totalPointsHit);
-			console.log("pointsHit - " + JSON.stringify(results.pointsHit, null, "\t"));
-			console.log("totalNumbersHit - " + JSON.stringify(results.totalNumbersHit, null, "\t"));
-			console.log("numbersHitAfterPointIsSet - " + JSON.stringify(results.numbersHitAfterPointIsSet, null, "\t"));
+			console.log("results - " + JSON.stringify(results, null, "\t"));
  			console.log("********************************************************");
 		}
 
