@@ -1,0 +1,406 @@
+ 
+<html>
+<header>
+	<title>Craps Simulator</title></header>
+	<script type="text/javascript">
+		function play() {
+			var amountOnPassline = parseInt(document.getElementById('amountOnPassline').value);
+			var shooterTurns = parseInt(document.getElementById('shooterTurns').value);
+			var passlineBackbetMultiplier = parseInt(document.getElementById('passlineBackbetMultiplier').value);
+			var hardWayAmount = parseInt(document.getElementById('hardWayAmount').value);
+			var playField = document.getElementById('playField').value == 'true';
+			var playFireBets = document.getElementById('playFireBets').value == 'true';
+			
+			
+
+
+			var hardWays = {4: hardWayAmount, 6: hardWayAmount, 8: hardWayAmount, 10: hardWayAmount };
+
+
+
+
+			var passLineOnlyStrategy = {
+				'amountOnPassline': amountOnPassline,
+				'backbetPayoutMultipliers': {4: 2, 5: 1.5, 6: 1.2, 8: 1.2, 9: 1.5, 10: 2}, 
+				'passlineBackbetMultiplier': passlineBackbetMultiplier,
+				'playField': playField,
+				'hardWays': hardWays,
+				'playCrapsBets': false,
+				'playFireBets': playFireBets,
+				'numbersToBack': {4: true, 5: true, 6: true, 8: true, 9: true, 10: true }
+			};
+
+			var ortizStrategy = clone(passLineOnlyStrategy)
+
+			ortizStrategy.numbersToBack = {4: false, 5: false, 6: true, 8: true, 9: false, 10: false };
+			ortizStrategy.passlineBackbetMultiplier = 1;
+
+			var earnings = getDefaultEarnings();
+			var ortizEarnings = getDefaultEarnings();
+			var results, totalResults;
+
+			var maxRollsForShooter = 0;
+			var maxPointsForShooter = 0;
+			var totalTimesRolled = 0;
+
+			for (var i = 0; i < shooterTurns; i++) {
+				results = playShooter();
+				if (i === 0) {
+					totalResults = clone(results);
+				} else {
+					totalResults = addResults(results, totalResults);
+				}
+
+				if (results.totalPointsHit > maxPointsForShooter) {
+					 maxPointsForShooter = results.totalPointsHit;
+				}
+
+				if (results.timesRolled > maxRollsForShooter) {
+					 maxRollsForShooter = results.timesRolled;
+				}
+				totalTimesRolled += results.timesRolled;
+
+				ortizEarnings = calculateEarnings(ortizStrategy, results, ortizEarnings);
+				earnings = calculateEarnings(passLineOnlyStrategy, results, earnings);
+				//logResults(results);
+				//console.log(earnings);
+			}
+			totalResults.maxRollsForShooter = maxRollsForShooter;
+			totalResults.maxPointsForShooter = maxPointsForShooter;
+			totalResults.shooterTurns = shooterTurns;
+
+			console.log("Results after " + shooterTurns + " shooter turns");
+			logResults(totalResults);
+			console.log("default strategy - " + JSON.stringify(earnings));
+			console.log("ortiz strategy - " + JSON.stringify(ortizEarnings));
+		}
+
+		function getDefaultEarnings() {
+			return { 
+				'fieldEarnings': 0, 
+				'hardwayEarnings': 0,
+				'fireBetEarnings': 0, 
+				'passlineEarnings': 0, 
+				'totalEarnings': 0 
+			};
+		}
+
+		function addResults(results, totalResults) {
+			totalResults.hardFours += results.hardFours;
+			totalResults.hardSixes += results.hardSixes;
+			totalResults.hardEights += results.hardEights;
+			totalResults.hardTens += results.hardTens;
+			totalResults.sevensOnFirstRoll += results.sevensOnFirstRoll;
+			totalResults.firstRollPasslineWins += results.firstRollPasslineWins;
+			totalResults.elevensOnFirstRoll += results.elevensOnFirstRoll;
+			totalResults.crapOnFirstRoll += results.crapOnFirstRoll;
+			totalResults.timesRolled += results.timesRolled;
+
+			for(var point in results.pointsHit) {
+				totalResults.pointsHit[point] += results.pointsHit[point];
+			}
+			for(var point in results.totalNumbersHit) {
+				totalResults.totalNumbersHit[point] += results.totalNumbersHit[point];
+			}
+			for(var point in results.numbersHitAfterPointIsSet) {
+				totalResults.numbersHitAfterPointIsSet[point] += results.numbersHitAfterPointIsSet[point];
+			}
+			return totalResults;	
+		}
+
+
+		function clone(obj) {
+		    if (null == obj || "object" != typeof obj) return obj;
+		    var copy = obj.constructor();
+		    for (var attr in obj) {
+		        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+		    }
+		    return copy;
+		}
+
+		function logResults(results) {
+ 			console.log("********************************************************");
+			console.log("hardFours - " + results.hardFours 
+				+ " - hardSixes - " + results.hardSixes 
+				+ " - hardEights - " + results.hardEights
+				+ " - hardTens - " + results.hardTens
+				+ "\n\nfirstRollPasslineWins - " + results.firstRollPasslineWins
+				+ " - crapOnFirstRoll - " + results.crapOnFirstRoll
+				+ " - firstRollNetWins - " + (results.firstRollPasslineWins - results.crapOnFirstRoll)
+				+ "\n\ntimesRolled - " + results.timesRolled
+				+ " - maxPointsForShooter - " + results.maxPointsForShooter
+				+ " - maxRollsForShooter - " + results.maxRollsForShooter
+				+ " - shooterTurns - " + results.shooterTurns
+				+ " - average Rolls per shooter - " + (results.timesRolled/results.shooterTurns)
+			);			
+
+			var pointGroupsHit = {
+				'FoursAndTens': 0,
+				'FivesAndNines': 0,
+				'SixesAndEights': 0
+			}
+			var curr = 0;
+			for(var point in results.pointsHit) {
+				if(results.pointsHit[point] > 0) {
+					curr = results.pointsHit[point];
+					if (point == 4 || point == 10) {
+						pointGroupsHit.FoursAndTens += curr
+					} 
+					if (point == 5 || point == 9) {
+						pointGroupsHit.FivesAndNines += curr;
+					} 
+					if (point == 6 || point == 8) {
+						pointGroupsHit.SixesAndEights += curr;
+					} 
+					console.log(point + " - POINT HIT - " + curr);
+				}
+			}
+			for(var pointGroup in pointGroupsHit) {
+				console.log(pointGroup + " - " + pointGroupsHit[pointGroup]);
+
+			}
+			console.log("totalPointsHit - " + results.totalPointsHit);
+			console.log("pointsHit - " + JSON.stringify(results.pointsHit, null, "\t"));
+			console.log("totalNumbersHit - " + JSON.stringify(results.totalNumbersHit));
+			console.log("numbersHitAfterPointIsSet - " + JSON.stringify(results.numbersHitAfterPointIsSet));
+ 			console.log("********************************************************");
+		}
+
+
+		function calculateEarnings(strategy, results, earnings) {
+			//http://www.crapspit.org/craps-payout-table/
+
+
+			//you lose this every time if you back you bet every time.  at least once per roll
+			earnings.passlineEarnings-=strategy.amountOnPassline + (strategy.passlineBackbetMultiplier * strategy.amountOnPassline);
+
+			//loses from crapouts on first rolls
+			earnings.passlineEarnings-=strategy.amountOnPassline * results.crapOnFirstRoll;
+
+			//gainz from first roll 7/11s
+			earnings.passlineEarnings+=(results.firstRollPasslineWins * strategy.amountOnPassline);
+
+			if (strategy.playField) {
+				for (var number in results.totalNumbersHit) {
+					if (results.totalNumbersHit[number] > 0) {
+						if (number === 2 || number === 12) {
+							earnings.fieldEarnings += results.totalNumbersHit[number] * (strategy.amountOnPassline * 2);
+						} else if (number < 5 || number > 8) {
+							earnings.fieldEarnings += results.totalNumbersHit[number] * strategy.amountOnPassline;
+						} else {
+							earnings.fieldEarnings -= results.totalNumbersHit[number] * strategy.amountOnPassline;
+						}
+					}
+				}
+			}
+
+			//calculates earnings for backbets
+			var uniquePointsHit = 0;
+			var currBackbet = 0;
+			for (var point in results.pointsHit) {
+				if (results.pointsHit[point] > 0 && strategy.numbersToBack[point]) {
+					uniquePointsHit++;
+					currBackbet = strategy.passlineBackbetMultiplier * strategy.amountOnPassline;
+					earnings.passlineEarnings+= (
+						results.pointsHit[point] *
+						Math.floor(currBackbet * strategy.backbetPayoutMultipliers[point])
+					);
+
+				}
+			}
+
+			if (strategy.hardWays[4] > 0) {
+				var hardFoursLost = (results.totalNumbersHit[4] - results.hardFours) + results.totalPointsHit[7];
+				earnings.hardwayEarnings -= strategy.hardWays[4] * results.hardFours;
+				earnings.hardwayEarnings += results.hardFours * strategy.hardWays[4] * 8;
+			}
+			if (strategy.hardWays[6] > 0) {
+				var hardSixesLost = (results.totalNumbersHit[6] - results.hardSixes) + results.totalPointsHit[7];
+				earnings.hardwayEarnings -= strategy.hardWays[6] * results.hardSixes;
+				earnings.hardwayEarnings += results.hardSixes * strategy.hardWays[6] * 10;
+			}
+			if (strategy.hardWays[8] > 0) {
+				var hardEightsLost = (results.totalNumbersHit[8] - results.hardEights) + results.totalPointsHit[7];
+				earnings.hardwayEarnings -= strategy.hardWays[8] * results.hardEights;
+				earnings.hardwayEarnings += results.hardEights * strategy.hardWays[8] * 10;
+			}
+			if (strategy.hardWays[10] > 0) {
+				var hardTensLost = (results.totalNumbersHit[10] - results.hardTens) + results.totalPointsHit[7];
+				earnings.hardwayEarnings -= strategy.hardWays[10] * results.hardTens;
+				earnings.hardwayEarnings += results.hardTens * strategy.hardWays[10] * 8;
+			}
+
+
+			//firebet earnings
+			if (strategy.playFireBets) {
+				if (uniquePointsHit < 4) {
+					earnings.fireBetEarnings-=strategy.amountOnPassline;
+				} else if (uniquePointsHit === 4) {
+					earnings.fireBetEarnings += strategy.amountOnPassline * 25;
+				} else if (uniquePointsHit === 5) {
+					//console.log("FIRE BET WITH 5 POINTS HIT!!!!!!!");
+					earnings.fireBetEarnings += strategy.amountOnPassline * 250;
+				} else if (uniquePointsHit === 6) {
+					//console.log("FIRE BET WITH 6 POINTS HIT!!!!!!!");
+					earnings.fireBetEarnings += strategy.amountOnPassline * 1000;
+				}
+				
+			}
+
+			earnings.passlineEarnings = Math.round(earnings.passlineEarnings);
+			earnings.hardwayEarnings = Math.round(earnings.hardwayEarnings);
+			earnings.fieldEarnings = Math.round(earnings.fieldEarnings);
+
+			earnings.totalEarnings = (
+				earnings.passlineEarnings +
+				earnings.hardwayEarnings +
+				earnings.fireBetEarnings +
+				earnings.fieldEarnings
+			);
+			return earnings;	
+		}
+
+
+		function playShooter() {
+
+			var shooterStatistics = {
+				'hardFours': 0,
+				'hardSixes': 0,
+				'hardEights': 0,
+				'hardTens': 0,
+				'sevensOnFirstRoll': 0,
+				'elevensOnFirstRoll': 0,
+				'firstRollPasslineWins': 0,
+				'crapOnFirstRoll': 0,
+				'totalPointsHit': 0,
+				'timesRolled': 0,
+				'pointsHit': { 4: 0, 5: 0, 6: 0, 8: 0, 9: 0, 10: 0 }, 
+				'totalNumbersHit': { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0 },
+				'numbersHitAfterPointIsSet': { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0 }
+			};
+
+			var shooterLost = false;
+			var currentPoint = 0;
+			var dice1, dice2, currentThrow, diceValue;
+			while (!shooterLost) {
+				var currentRoll = { 
+					'dice1': Math.floor(Math.random() * 6) + 1,  
+					'dice2': Math.floor(Math.random() * 6) + 1 
+				};
+				dice1 = currentRoll.dice1;
+				dice2 = currentRoll.dice2;
+				diceValue = dice1 + dice2;
+				shooterStatistics.timesRolled++;
+
+				shooterStatistics.totalNumbersHit[diceValue]++;
+				if (currentPoint === 0) {
+					if (diceValue < 4 || diceValue === 12) {
+						shooterStatistics.crapOnFirstRoll++;
+					} else if (diceValue === 7) {
+						shooterStatistics.sevensOnFirstRoll++;
+					} else if (diceValue === 11) {
+						shooterStatistics.elevensOnFirstRoll++;
+					} else {
+						currentPoint = diceValue;
+					}
+				} else {
+					if (diceValue === 7) {
+						shooterLost = true;
+					} else if (diceValue === currentPoint) {
+						currentPoint = 0;
+						shooterStatistics.totalPointsHit++;
+						shooterStatistics.pointsHit[diceValue]++;
+					}	
+					shooterStatistics.numbersHitAfterPointIsSet[diceValue]++;
+				} 
+
+				if (dice1 === 2 && dice2 === 2) shooterStatistics.hardFours++;
+				if (dice1 === 3 && dice2 === 3) shooterStatistics.hardSixes++;
+				if (dice1 === 4 && dice2 === 4) shooterStatistics.hardEights++;
+				if (dice1 === 5 && dice2 === 5) shooterStatistics.hardTens++;
+			}
+			shooterStatistics.firstRollPasslineWins = shooterStatistics.sevensOnFirstRoll + shooterStatistics.elevensOnFirstRoll;
+			return shooterStatistics;
+		}
+
+	</script>
+<body>
+	<table>
+		<tr>
+			<td>Amount on pass line: </td>
+			<td>
+				<select id = "amountOnPassline">
+				  <option value="15">15</option>
+				  <option value="5">5</option>
+				  <option value="10">10</option>
+				  <option value="20">20</option>
+				  <option value="25">25</option>
+				  <option value="50">50</option>
+				  <option value="100">100</option>
+				  <option value="0">0</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Shooter Turns: </td>
+			<td>
+				<select id = "shooterTurns">
+				  <option value="10">10</option>
+				  <option value="1">1</option>
+				  <option value="5">5</option>
+				  <option value="25">25</option>
+				  <option value="50">50</option>
+				  <option value="100">100</option>
+				  <option value="1000">1000</option>
+				  <option value="5000">5000</option>
+				  <option value="10000">10000</option>
+				  <option value="100000">100000</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Amount to Back pass line: </td>
+			<td>
+				<select id = "passlineBackbetMultiplier">
+				  <option value="3">3x</option>
+				  <option value="1">1x</option>
+				  <option value="2">2x</option>
+				  <option value="4">4x</option>
+				  <option value="5">5x</option>
+				  <option value="0">0</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Play the field: </td>
+			<td>
+				<select id = "playField">
+				  <option value="false">No</option>
+				  <option value="true">Yes</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Hard Way Amount: </td>
+			<td>
+				<select id = "hardWayAmount">
+				  <option value="0">0</option>
+				  <option value="1">1</option>
+				  <option value="5">5</option>
+				  <option value="10">10</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Play Fire bet: </td>
+			<td>
+				<select id = "playFireBets">
+				  <option value="false">No</option>
+				  <option value="true">Yes</option>
+				</select>
+			</td>
+		</tr>
+	</table>
+	<input type = "button" id = "play" value = "play" onclick="play()"/>
+</body>
+</html>
