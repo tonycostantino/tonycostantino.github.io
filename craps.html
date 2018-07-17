@@ -3,7 +3,24 @@
 <header>
 	<title>Craps Simulator</title></header>
 	<script type="text/javascript">
+
+		//copy pasta from https://stackoverflow.com/questions/20256760/javascript-console-log-to-html
+		//not the best.   but just wanted to output content to screen..   will improve later.  (maybe)
+		(function () {
+		    var old = console.log;
+		    console.log = function () {
+		      for (var i = 0; i < arguments.length; i++) {
+		        if (typeof arguments[i] == 'object') {
+		            document.getElementById('log').innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
+		        } else {
+		            document.getElementById('log').innerHTML += arguments[i] + '<br />';
+		        }
+		      }
+		    }
+		})();
+
 		function play() {
+			document.getElementById('log').innerHTML = "";
 			var amountOnPassline = parseInt(document.getElementById('amountOnPassline').value);
 			var shooterTurns = parseInt(document.getElementById('shooterTurns').value);
 			var passlineBackbetMultiplier = parseInt(document.getElementById('passlineBackbetMultiplier').value);
@@ -402,5 +419,6 @@
 		</tr>
 	</table>
 	<input type = "button" id = "play" value = "play" onclick="play()"/>
+	<pre id="log"></pre>
 </body>
 </html>
