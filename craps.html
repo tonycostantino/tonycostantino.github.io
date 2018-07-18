@@ -144,6 +144,9 @@
 				'FivesAndNines': 0,
 				'SixesAndEights': 0
 			}
+			//sixEights 54
+			//fivesNines 67.5
+			//foursTens 90
 			var curr = 0;
 			results.totalPointsHit = 0;
 			for(var point in results.pointsHit) {
@@ -178,11 +181,9 @@
 			//you lose this every time if you back you bet every time.  at least once per roll
 			earnings.passlineEarnings-=strategy.amountOnPassline + (strategy.passlineBackbetMultiplier * strategy.amountOnPassline);
 
-			//loses from crapouts on first rolls
-			earnings.passlineEarnings-=strategy.amountOnPassline * results.crapOnFirstRoll;
 
-			//gainz from first roll 7/11s
-			earnings.passlineEarnings+=(results.firstRollPasslineWins * strategy.amountOnPassline);
+			//gainz from first roll 7/11s - crapouts
+			earnings.passlineEarnings+=(results.firstRollPasslineWins - results.crapOnFirstRoll) * strategy.amountOnPassline;
 
 			if (strategy.playField) {
 				for (var number in results.totalNumbersHit) {
@@ -205,14 +206,18 @@
 				if (results.pointsHit[point] > 0 && strategy.numbersToBack[point]) {
 					uniquePointsHit++;
 					currBackbet = strategy.passlineBackbetMultiplier * strategy.amountOnPassline;
+					//add up your backbet Earnings
 					earnings.passlineEarnings+= (
 						results.pointsHit[point] *
 						Math.floor(currBackbet * strategy.backbetPayoutMultipliers[point])
 					);
-
+					//gain back your passline bet
+					earnings.passlineEarnings+=strategy.amountOnPassline;
 				}
 			}
 
+			/*
+			need to figure this out later..
 			if (strategy.hardWays[4] > 0) {
 				var hardFoursLost = (results.totalNumbersHit[4] - results.hardFours) + results.totalPointsHit[7];
 				earnings.hardwayEarnings -= strategy.hardWays[4] * results.hardFours;
@@ -233,7 +238,7 @@
 				earnings.hardwayEarnings -= strategy.hardWays[10] * results.hardTens;
 				earnings.hardwayEarnings += results.hardTens * strategy.hardWays[10] * 8;
 			}
-
+			*/
 
 			//firebet earnings
 			if (strategy.playFireBets) {
