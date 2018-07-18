@@ -61,10 +61,6 @@
 			var maxPointsForShooter = 0;
 			var totalTimesRolled = 0;
 
-			var maximumProfits = 0;
-			var maximumProfitsShooterNum = 0;
-			var minimumProfits = 0;
-			var minimumProfitsShooterNum = 0;
 
 			for (var i = 0; i < shooterTurns; i++) {
 				results = playShooter();
@@ -102,11 +98,11 @@
 
 		function getDefaultEarnings() {
 			return { 
+				'maximumProfitsShooterNumber': 0, 
 				'maximumProfits': 0, 
-				'maximumProfitsShooterNum': 0, 
 				'-': '-',
+				'minimumProfitsShooterNumber': 0, 
 				'minimumProfits': 0, 
-				'minimumProfitsShooterNum': 0, 
 				'--- firebet stats ---': 'below',
 				'fireBetWith4Points': 0,
 				'fireBetWith5Points': 0,
@@ -290,13 +286,13 @@
 
 			if(earnings.totalEarnings > earnings.maximumProfits) {
 				earnings.maximumProfits = earnings.totalEarnings;
-				earnings.maximumProfitsShooterNum = shooterTurn;
+				earnings.maximumProfitsShooterNumber = shooterTurn;
 
 			}
 
 			if(earnings.totalEarnings < earnings.minimumProfits) {
 				earnings.minimumProfits = earnings.totalEarnings;
-				earnings.minimumProfitsShooterNum = shooterTurn;
+				earnings.minimumProfitsShooterNumber = shooterTurn;
 			}
 
 			return earnings;	
@@ -369,22 +365,7 @@
 <body>
 	<table>
 		<tr>
-			<td>Amount on pass line: </td>
-			<td>
-				<select id = "amountOnPassline">
-				  <option value="15">15</option>
-				  <option value="5">5</option>
-				  <option value="10">10</option>
-				  <option value="20">20</option>
-				  <option value="25">25</option>
-				  <option value="50">50</option>
-				  <option value="100">100</option>
-				  <option value="0">0</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>Shooter Turns: </td>
+			<td>Shooters (turns on dice): </td>
 			<td>
 				<select id = "shooterTurns">
 				  <option value="10">10</option>
@@ -397,6 +378,21 @@
 				  <option value="5000">5000</option>
 				  <option value="10000">10000</option>
 				  <option value="100000">100000</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Amount on pass line: </td>
+			<td>
+				<select id = "amountOnPassline">
+				  <option value="15">15</option>
+				  <option value="5">5</option>
+				  <option value="10">10</option>
+				  <option value="20">20</option>
+				  <option value="25">25</option>
+				  <option value="50">50</option>
+				  <option value="100">100</option>
+				  <option value="0">0</option>
 				</select>
 			</td>
 		</tr>
