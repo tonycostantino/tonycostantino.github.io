@@ -60,6 +60,13 @@
 			var maxPointsForShooter = 0;
 			var totalTimesRolled = 0;
 
+			/*
+			var maximumProfits = 0;
+			var maximumProfitsShooterNum = 0;
+			var minimumProfits = 0;
+			var minimumProfitsShooterNum = 0;
+			*/
+
 			for (var i = 0; i < shooterTurns; i++) {
 				results = playShooter();
 				if (i === 0) {
@@ -68,13 +75,14 @@
 					totalResults = addResults(results, totalResults);
 				}
 
-				if (results.totalPointsHit > maxPointsForShooter) {
-					 maxPointsForShooter = results.totalPointsHit;
-				}
 
-				if (results.timesRolled > maxRollsForShooter) {
+				if (results.totalPointsHit > maxPointsForShooter) 
+					 maxPointsForShooter = results.totalPointsHit;
+
+				if (results.timesRolled > maxRollsForShooter) 
 					 maxRollsForShooter = results.timesRolled;
-				}
+
+
 				totalTimesRolled += results.timesRolled;
 
 				ortizEarnings = calculateEarnings(ortizStrategy, results, ortizEarnings);
@@ -102,7 +110,7 @@
 			};
 		}
 
-		function addResults(results, totalResults) {
+		function addResults(results, totalResults, shooterTurn) {
 			totalResults.hardFours += results.hardFours;
 			totalResults.hardSixes += results.hardSixes;
 			totalResults.hardEights += results.hardEights;
