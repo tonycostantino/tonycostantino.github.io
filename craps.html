@@ -46,26 +46,25 @@
 				'playFireBets': playFireBets,
 				'numbersToBack': {4: true, 5: true, 6: true, 8: true, 9: true, 10: true }
 			};
+			var earnings = getDefaultEarnings();
 
+			/*
 			var ortizStrategy = clone(passLineOnlyStrategy)
-
 			ortizStrategy.numbersToBack = {4: false, 5: false, 6: true, 8: true, 9: false, 10: false };
 			ortizStrategy.passlineBackbetMultiplier = 1;
-
-			var earnings = getDefaultEarnings();
 			var ortizEarnings = getDefaultEarnings();
+			*/
+
 			var results, totalResults;
 
 			var maxRollsForShooter = 0;
 			var maxPointsForShooter = 0;
 			var totalTimesRolled = 0;
 
-			/*
 			var maximumProfits = 0;
 			var maximumProfitsShooterNum = 0;
 			var minimumProfits = 0;
 			var minimumProfitsShooterNum = 0;
-			*/
 
 			for (var i = 0; i < shooterTurns; i++) {
 				results = playShooter();
@@ -85,32 +84,39 @@
 
 				totalTimesRolled += results.timesRolled;
 
-				ortizEarnings = calculateEarnings(ortizStrategy, results, ortizEarnings);
-				earnings = calculateEarnings(passLineOnlyStrategy, results, earnings);
-				//logResults(results);
-				//console.log(earnings);
+
+				earnings = calculateEarnings(passLineOnlyStrategy, results, earnings, i+1);
+
+
+				//ortizEarnings = calculateEarnings(ortizStrategy, results, ortizEarnings);
 			}
 			totalResults.maxRollsForShooter = maxRollsForShooter;
 			totalResults.maxPointsForShooter = maxPointsForShooter;
 			totalResults.shooterTurns = shooterTurns;
 
 			console.log("Results after " + shooterTurns + " shooter turns");
-			console.log("default strategy - " + JSON.stringify(earnings, null, "\t"));
-			console.log("ortiz strategy - " + JSON.stringify(ortizEarnings, null, "\t"));
+			console.log("strategy - " + JSON.stringify(earnings, null, "\t"));
+			//console.log("ortiz strategy - " + JSON.stringify(ortizEarnings, null, "\t"));
 			logResults(totalResults);
 		}
 
 		function getDefaultEarnings() {
 			return { 
+				'maximumProfits': 0, 
+				'maximumProfitsShooterNum': 0, 
+				'-': '-',
+				'minimumProfits': 0, 
+				'minimumProfitsShooterNum': 0, 
+				'--- earnings ---': 'below',
 				'fieldEarnings': 0, 
 				'hardwayEarnings': 0,
 				'fireBetEarnings': 0, 
 				'passlineEarnings': 0, 
-				'totalEarnings': 0 
+				'totalEarnings': 0
 			};
 		}
 
-		function addResults(results, totalResults, shooterTurn) {
+		function addResults(results, totalResults) {
 			totalResults.hardFours += results.hardFours;
 			totalResults.hardSixes += results.hardSixes;
 			totalResults.hardEights += results.hardEights;
@@ -182,7 +188,7 @@
 		}
 
 
-		function calculateEarnings(strategy, results, earnings) {
+		function calculateEarnings(strategy, results, earnings, shooterTurn) {
 			//http://www.crapspit.org/craps-payout-table/
 
 
@@ -274,6 +280,18 @@
 				earnings.fireBetEarnings +
 				earnings.fieldEarnings
 			);
+
+			if(earnings.totalEarnings > earnings.maximumProfits) {
+				earnings.maximumProfits = earnings.totalEarnings;
+				earnings.maximumProfitsShooterNum = shooterTurn;
+
+			}
+
+			if(earnings.totalEarnings < earnings.minimumProfits) {
+				earnings.minimumProfits = earnings.totalEarnings;
+				earnings.minimumProfitsShooterNum = shooterTurn;
+			}
+
 			return earnings;	
 		}
 
