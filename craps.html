@@ -107,10 +107,14 @@
 				'-': '-',
 				'minimumProfits': 0, 
 				'minimumProfitsShooterNum': 0, 
+				'--- firebet stats ---': 'below',
+				'fireBetWith4Points': 0,
+				'fireBetWith5Points': 0,
+				'fireBetWith6Points': 0,
+				'fireBetEarnings': 0, 
 				'--- earnings ---': 'below',
 				'fieldEarnings': 0, 
 				'hardwayEarnings': 0,
-				'fireBetEarnings': 0, 
 				'passlineEarnings': 0, 
 				'totalEarnings': 0
 			};
@@ -260,12 +264,15 @@
 					earnings.fireBetEarnings-=strategy.amountOnPassline;
 				} else if (uniquePointsHit === 4) {
 					earnings.fireBetEarnings += strategy.amountOnPassline * 25;
+					earnings.fireBetWith4Points++;
 				} else if (uniquePointsHit === 5) {
 					//console.log("FIRE BET WITH 5 POINTS HIT!!!!!!!");
 					earnings.fireBetEarnings += strategy.amountOnPassline * 250;
+					earnings.fireBetWith5Points++;
 				} else if (uniquePointsHit === 6) {
 					//console.log("FIRE BET WITH 6 POINTS HIT!!!!!!!");
 					earnings.fireBetEarnings += strategy.amountOnPassline * 1000;
+					earnings.fireBetWith6Points++;
 				}
 				
 			}
@@ -299,10 +306,6 @@
 		function playShooter() {
 
 			var shooterStatistics = {
-				'hardFours': 0,
-				'hardSixes': 0,
-				'hardEights': 0,
-				'hardTens': 0,
 				'sevensOnFirstRoll': 0,
 				'elevensOnFirstRoll': 0,
 				'firstRollPasslineWins': 0,
@@ -311,7 +314,11 @@
 				'timesRolled': 0,
 				'pointsHit': { 4: 0, 5: 0, 6: 0, 8: 0, 9: 0, 10: 0 }, 
 				'totalNumbersHit': { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0 },
-				'numbersHitAfterPointIsSet': { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0 }
+				'numbersHitAfterPointIsSet': { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0 },
+				'hardFours': 0,
+				'hardSixes': 0,
+				'hardEights': 0,
+				'hardTens': 0
 			};
 
 			var shooterLost = false;
