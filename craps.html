@@ -138,6 +138,7 @@
 			totalResults.elevensOnFirstRoll += results.elevensOnFirstRoll;
 			totalResults.crapOnFirstRoll += results.crapOnFirstRoll;
 			totalResults.timesRolled += results.timesRolled;
+			totalResults.pointsLost[results.losingPoint]++;
 
 			for(var point in results.pointsHit) {
 				totalResults.pointsHit[point] += results.pointsHit[point];
@@ -223,9 +224,12 @@
 		function calculateEarnings(strategy, results, earnings, shooterTurn) {
 			//http://www.crapspit.org/craps-payout-table/
 
+			var currBackbet = strategy.passlineBackbetMultiplier * strategy.amountOnPassline;
 
-			//you lose this every time if you back you bet every time.  at least once per roll
-			earnings.passlineEarnings-=strategy.amountOnPassline + (strategy.passlineBackbetMultiplier * strategy.amountOnPassline);
+			earnings.passlineEarnings-=strategy.amountOnPassline
+			if(strategy.numbersToBack[results.losingPoint]) {
+				 earnings.passlineEarnings-=currBackbet;
+			}
 
 
 			//gainz from first roll 7/11s - crapouts
@@ -247,19 +251,17 @@
 
 			//calculates earnings for backbets
 			var uniquePointsHit = 0;
-			var currBackbet = 0;
 			for (var point in results.pointsHit) {
 				if (results.pointsHit[point] > 0 && strategy.numbersToBack[point]) {
 					uniquePointsHit++;
-					currBackbet = strategy.passlineBackbetMultiplier * strategy.amountOnPassline;
 					//add up your backbet Earnings
 					earnings.passlineEarnings+= (
 						results.pointsHit[point] *
 						Math.floor(currBackbet * strategy.backbetPayoutMultipliers[point])
 					);
-					//gain back your passline bet
-					earnings.passlineEarnings+=strategy.amountOnPassline;
 				}
+				//gain back your passline bet
+				earnings.passlineEarnings+=results.pointsHit[point] * strategy.amountOnPassline;
 			}
 
 			/*
@@ -341,8 +343,10 @@
 				'totalPointsHit': 0,
 				'timesRolled': 0,
 				'pointsHit': { 4: 0, 5: 0, 6: 0, 8: 0, 9: 0, 10: 0 }, 
+				'pointsLost': { 4: 0, 5: 0, 6: 0, 8: 0, 9: 0, 10: 0 }, 
 				'totalNumbersHit': { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0 },
 				'numbersHitAfterPointIsSet': { 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0 },
+				'losingPoint': 0,
 				'hardFours': 0,
 				'hardSixes': 0,
 				'hardEights': 0,
@@ -375,6 +379,8 @@
 					}
 				} else {
 					if (diceValue === 7) {
+						shooterStatistics.losingPoint = currentPoint;
+						shooterStatistics.pointsLost[currentPoint]++;
 						shooterLost = true;
 					} else if (diceValue === currentPoint) {
 						currentPoint = 0;
