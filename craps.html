@@ -44,7 +44,14 @@
 				'hardWays': hardWays,
 				'playCrapsBets': false,
 				'playFireBets': playFireBets,
-				'numbersToBack': {4: true, 5: true, 6: true, 8: true, 9: true, 10: true }
+				'numbersToBack': {
+					4: document.getElementById("numbersToBack4").checked, 
+					5: document.getElementById("numbersToBack5").checked, 
+					6: document.getElementById("numbersToBack6").checked, 
+					8: document.getElementById("numbersToBack8").checked, 
+					9: document.getElementById("numbersToBack9").checked, 
+					10: document.getElementById("numbersToBack10").checked 
+				}
 			};
 			var earnings = getDefaultEarnings();
 
@@ -407,6 +414,21 @@
 				  <option value="5">5x</option>
 				  <option value="0">0</option>
 				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>Numbers to back: </td>
+			<td>
+				<table border=1 >
+					<tr>
+						<td>&nbsp;4<input type="checkbox" id="numbersToBack4" checked="checked" value="4">&nbsp;&nbsp;</td>
+						<td>&nbsp;5<input type="checkbox" id="numbersToBack5" checked="checked" value="5">&nbsp;&nbsp;</td>
+						<td>&nbsp;6<input type="checkbox" id="numbersToBack6" checked="checked" value="6">&nbsp;&nbsp;</td>
+						<td>&nbsp;8<input type="checkbox" id="numbersToBack8" checked="checked" value="8">&nbsp;&nbsp;</td>
+						<td>&nbsp;9<input type="checkbox" id="numbersToBack9" checked="checked" value="9">&nbsp;&nbsp;</td>
+						<td>10 <input type="checkbox" id="numbersToBack10" checked="checked" value="10">  </td>
+					</tr>
+				</table>
 			</td>
 		</tr>
 		<tr>
