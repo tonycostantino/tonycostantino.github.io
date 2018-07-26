@@ -36,7 +36,7 @@
 
 
 
-			var passLineOnlyStrategy = {
+			var crapsStrategy = {
 				'amountOnPassline': amountOnPassline,
 				'backbetPayoutMultipliers': {4: 2, 5: 1.5, 6: 1.2, 8: 1.2, 9: 1.5, 10: 2}, 
 				'passlineBackbetMultiplier': passlineBackbetMultiplier,
@@ -54,13 +54,6 @@
 				}
 			};
 			var earnings = getDefaultEarnings();
-
-			/*
-			var ortizStrategy = clone(passLineOnlyStrategy)
-			ortizStrategy.numbersToBack = {4: false, 5: false, 6: true, 8: true, 9: false, 10: false };
-			ortizStrategy.passlineBackbetMultiplier = 1;
-			var ortizEarnings = getDefaultEarnings();
-			*/
 
 			var results, totalResults;
 
@@ -88,10 +81,8 @@
 				totalTimesRolled += results.timesRolled;
 
 
-				earnings = calculateEarnings(passLineOnlyStrategy, results, earnings, i+1);
+				earnings = calculateEarnings(crapsStrategy, results, earnings, i+1);
 
-
-				//ortizEarnings = calculateEarnings(ortizStrategy, results, ortizEarnings);
 			}
 			totalResults.maxRollsForShooter = maxRollsForShooter;
 			totalResults.maxPointsForShooter = maxPointsForShooter;
@@ -99,8 +90,7 @@
 
 			console.log("Results after " + shooterTurns + " shooter turns");
 			console.log("strategy - " + JSON.stringify(earnings, null, "\t"));
-			//console.log("ortiz strategy - " + JSON.stringify(ortizEarnings, null, "\t"));
-			logResults(totalResults);
+			logResults(totalResults, crapsStrategy);
 		}
 
 		function getDefaultEarnings() {
@@ -110,12 +100,12 @@
 				'-': '-',
 				'minimumProfitsShooterNumber': 0, 
 				'minimumProfits': 0, 
-				'--- firebet stats ---': 'below',
+				'--- firebet stats ---': '-',
 				'fireBetWith4Points': 0,
 				'fireBetWith5Points': 0,
 				'fireBetWith6Points': 0,
 				'fireBetEarnings': 0, 
-				'--- earnings ---': 'below',
+				'--- earnings ---': '-',
 				'fieldEarnings': 0, 
 				'hardwayEarnings': 0,
 				'passlineEarnings': 0, 
@@ -156,18 +146,22 @@
 		    return copy;
 		}
 
-		function logResults(results) {
+		function logResults(results, strategy) {
  			console.log("********************************************************");
 		
+			var backbet = strategy.passlineBackbetMultiplier * strategy.amountOnPassline;
 
-			var pointGroupsHit = {
-				'FoursAndTens': 0,
-				'FivesAndNines': 0,
-				'SixesAndEights': 0
-			}
-			//sixEights 54
-			//fivesNines 67.5
-			//foursTens 90
+			var fourTenPayout = Math.floor(backbet * strategy.backbetPayoutMultipliers[4]);
+			var fiveNinePayout = Math.floor(backbet * strategy.backbetPayoutMultipliers[5]);
+			var sixEightPayout = Math.floor(backbet * strategy.backbetPayoutMultipliers[6]);
+
+ 			var foursTensKey = '4s & 10s hit --> Possible Payout';
+ 			var fivesNinesKey = '5s & 9s hit  --> Possible Payout';
+ 			var sixesEightsKey = '6s & 8s hit  --> Possible Payout';
+			var pointGroupsHit = [];
+			pointGroupsHit[foursTensKey] = 0;
+			pointGroupsHit[fivesNinesKey] = 0;
+			pointGroupsHit[sixesEightsKey] = 0;
 			var curr = 0;
 			results.totalPointsHit = 0;
 			for(var point in results.pointsHit) {
@@ -175,20 +169,26 @@
 					curr = results.pointsHit[point];
 					results.totalPointsHit += curr;
 					if (point == 4 || point == 10) {
-						pointGroupsHit.FoursAndTens += curr
+						pointGroupsHit[foursTensKey] += curr;
 					} 
 					if (point == 5 || point == 9) {
-						pointGroupsHit.FivesAndNines += curr;
+						pointGroupsHit[fivesNinesKey] += curr;
 					} 
 					if (point == 6 || point == 8) {
-						pointGroupsHit.SixesAndEights += curr;
+						pointGroupsHit[sixesEightsKey] += curr;
 					} 
 				}
 			}
-			for(var pointGroup in pointGroupsHit) {
-				console.log(pointGroup + " - " + pointGroupsHit[pointGroup]);
+			console.log(foursTensKey + " is " + pointGroupsHit[foursTensKey] + ' * ' + fourTenPayout + ' = ' + (pointGroupsHit[foursTensKey] * fourTenPayout));
+			console.log(fivesNinesKey + " is " + pointGroupsHit[fivesNinesKey] + ' * ' + fiveNinePayout + ' = ' + (pointGroupsHit[fivesNinesKey] * fiveNinePayout));
+			console.log(sixesEightsKey + " is " + pointGroupsHit[sixesEightsKey] + ' * ' + sixEightPayout + ' = ' + (pointGroupsHit[sixesEightsKey] * sixEightPayout));
+			var totalBackbetpayout = (pointGroupsHit[foursTensKey] * fourTenPayout) +
+				(pointGroupsHit[fivesNinesKey] * fiveNinePayout) +
+				(pointGroupsHit[sixesEightsKey] * sixEightPayout);
 
-			}
+
+			console.log("totalBackbetpayout - " + totalBackbetpayout);
+
 			console.log("totalPointsHit - " + results.totalPointsHit);
 			console.log("results - " + JSON.stringify(results, null, "\t"));
  			console.log("********************************************************");
