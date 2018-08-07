@@ -105,6 +105,7 @@
 
 			console.log("Results after " + shooterTurns + " shooter turns");
 			console.log("strategy - " + JSON.stringify(earnings, null, "\t"));
+			outputResultsToHtml(totalResults);
 			logResults(totalResults, crapsStrategy);
 		}
 
@@ -162,6 +163,50 @@
 		    return copy;
 		}
 
+		function outputResultsToHtml(results) {
+			document.getElementById('gameResults').style="float:right";
+			document.getElementById('timesHitAfterPoint2').innerHTML = results.numbersHitAfterPointIsSet[2];
+			document.getElementById('timesHitAfterPoint3').innerHTML = results.numbersHitAfterPointIsSet[3];
+			document.getElementById('timesHitAfterPoint4').innerHTML = results.numbersHitAfterPointIsSet[4];
+			document.getElementById('timesHitAfterPoint5').innerHTML = results.numbersHitAfterPointIsSet[5];
+			document.getElementById('timesHitAfterPoint6').innerHTML = results.numbersHitAfterPointIsSet[6];
+			document.getElementById('timesHitAfterPoint7').innerHTML = results.numbersHitAfterPointIsSet[7];
+			document.getElementById('timesHitAfterPoint8').innerHTML = results.numbersHitAfterPointIsSet[8];
+			document.getElementById('timesHitAfterPoint9').innerHTML = results.numbersHitAfterPointIsSet[9];
+			document.getElementById('timesHitAfterPoint10').innerHTML = results.numbersHitAfterPointIsSet[10];
+			document.getElementById('timesHitAfterPoint11').innerHTML = results.numbersHitAfterPointIsSet[11];
+			document.getElementById('timesHitAfterPoint12').innerHTML = results.numbersHitAfterPointIsSet[12];
+
+			document.getElementById('totalNumbersHit2').innerHTML = results.totalNumbersHit[2];
+			document.getElementById('totalNumbersHit3').innerHTML = results.totalNumbersHit[3];
+			document.getElementById('totalNumbersHit4').innerHTML = results.totalNumbersHit[4];
+			document.getElementById('totalNumbersHit5').innerHTML = results.totalNumbersHit[5];
+			document.getElementById('totalNumbersHit6').innerHTML = results.totalNumbersHit[6];
+			document.getElementById('totalNumbersHit7').innerHTML = results.totalNumbersHit[7];
+			document.getElementById('totalNumbersHit8').innerHTML = results.totalNumbersHit[8];
+			document.getElementById('totalNumbersHit9').innerHTML = results.totalNumbersHit[9];
+			document.getElementById('totalNumbersHit10').innerHTML = results.totalNumbersHit[10];
+			document.getElementById('totalNumbersHit11').innerHTML = results.totalNumbersHit[11];
+			document.getElementById('totalNumbersHit12').innerHTML = results.totalNumbersHit[12];
+
+			document.getElementById('pointsHit4').innerHTML = results.pointsHit[4];
+			document.getElementById('pointsHit5').innerHTML = results.pointsHit[5];
+			document.getElementById('pointsHit6').innerHTML = results.pointsHit[6];
+			//document.getElementById('pointsHit7').innerHTML = '0';
+			document.getElementById('pointsHit8').innerHTML = results.pointsHit[8];
+			document.getElementById('pointsHit9').innerHTML = results.pointsHit[9];
+			document.getElementById('pointsHit10').innerHTML = results.pointsHit[10];
+
+			document.getElementById('pointsLost4').innerHTML = results.pointsLost[4];
+			document.getElementById('pointsLost5').innerHTML = results.pointsLost[5];
+			document.getElementById('pointsLost6').innerHTML = results.pointsLost[6];
+			//document.getElementById('pointsLost7').innerHTML = '0';
+			document.getElementById('pointsLost8').innerHTML = results.pointsLost[8];
+			document.getElementById('pointsLost9').innerHTML = results.pointsLost[9];
+			document.getElementById('pointsLost10').innerHTML = results.pointsLost[10];
+
+		}
+
 		function logResults(results, strategy) {
  			console.log("********************************************************");
 		
@@ -216,6 +261,11 @@
 			console.log("totalBackbetpayout - " + totalBackbetpayout);
 
 			console.log("totalPointsHit - " + results.totalPointsHit);
+
+			results.pointsHit = null;
+			results.pointsLost = null;
+			results.numbersHitAfterPointIsSet = null;
+			results.totalNumbersHit = null;
 			console.log("results - " + JSON.stringify(results, null, "\t"));
  			console.log("********************************************************");
 		}
@@ -401,98 +451,165 @@
 
 	</script>
 <body>
-	<table>
+	<div style="float:left">
+		<table>
+			<tr>
+				<td>Shooters (turns on dice): </td>
+				<td>
+					<select id = "shooterTurns">
+					  <option value="10">10</option>
+					  <option value="1">1</option>
+					  <option value="5">5</option>
+					  <option value="25">25</option>
+					  <option value="50">50</option>
+					  <option value="100">100</option>
+					  <option value="1000">1,000</option>
+					  <option value="5000">5,000</option>
+					  <option value="10000">10,000</option>
+					  <option value="100000">100,000</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Amount on pass line: </td>
+				<td>
+					<select id = "amountOnPassline">
+					  <option value="15">15</option>
+					  <option value="5">5</option>
+					  <option value="10">10</option>
+					  <option value="20">20</option>
+					  <option value="25">25</option>
+					  <option value="50">50</option>
+					  <option value="100">100</option>
+					  <option value="0">0</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Amount to Back pass line: </td>
+				<td>
+					<select id = "passlineBackbetMultiplier">
+					  <option value="3">3x</option>
+					  <option value="1">1x</option>
+					  <option value="2">2x</option>
+					  <option value="4">4x</option>
+					  <option value="5">5x</option>
+					  <option value="0">0</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Numbers to back: </td>
+				<td>
+					<table border=1 >
+						<tr>
+							<td>&nbsp;4<input type="checkbox" id="numbersToBack4" checked="checked" value="4">&nbsp;&nbsp;</td>
+							<td>&nbsp;5<input type="checkbox" id="numbersToBack5" checked="checked" value="5">&nbsp;&nbsp;</td>
+							<td>&nbsp;6<input type="checkbox" id="numbersToBack6" checked="checked" value="6">&nbsp;&nbsp;</td>
+							<td>&nbsp;8<input type="checkbox" id="numbersToBack8" checked="checked" value="8">&nbsp;&nbsp;</td>
+							<td>&nbsp;9<input type="checkbox" id="numbersToBack9" checked="checked" value="9">&nbsp;&nbsp;</td>
+							<td>10 <input type="checkbox" id="numbersToBack10" checked="checked" value="10">  </td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>Play the field: </td>
+				<td>
+					<select id = "playField">
+					  <option value="false">No</option>
+					  <option value="true">Yes</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Hard Way Amount: </td>
+				<td>
+					<select id = "hardWayAmount">
+					  <option value="0">0</option>
+					  <option value="1">1</option>
+					  <option value="5">5</option>
+					  <option value="10">10</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Play Fire bet (pass line amount): </td>
+				<td>
+					<select id = "playFireBets">
+					  <option value="false">No</option>
+					  <option value="true">Yes</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<button class="button" onclick="play()">Play Craps</button>
+	</div>
+	<div id="gameResults" style="float:right;visibility:hidden;">
+	<div>
+		<table border="1" cellpadding="5">
 		<tr>
-			<td>Shooters (turns on dice): </td>
-			<td>
-				<select id = "shooterTurns">
-				  <option value="10">10</option>
-				  <option value="1">1</option>
-				  <option value="5">5</option>
-				  <option value="25">25</option>
-				  <option value="50">50</option>
-				  <option value="100">100</option>
-				  <option value="1000">1,000</option>
-				  <option value="5000">5,000</option>
-				  <option value="10000">10,000</option>
-				  <option value="100000">100,000</option>
-				</select>
-			</td>
+			<td></td><td>2</td> <td>3</td> <td>4</td> <td>5</td> <td>6</td> <td>7</td> <td>8</td> <td>9</td> <td>10</td> <td>11</td> <td>12</td> 
+		</tr> 
+		<tr>
+			<td>Total Numbers Hit</td>
+			<td id="totalNumbersHit2"></td>
+			<td id="totalNumbersHit3"></td>
+			<td id="totalNumbersHit4"></td>
+			<td id="totalNumbersHit5"></td>
+			<td id="totalNumbersHit6"></td>
+			<td id="totalNumbersHit7"></td>
+			<td id="totalNumbersHit8"></td>
+			<td id="totalNumbersHit9"></td>
+			<td id="totalNumbersHit10"></td>
+			<td id="totalNumbersHit11"></td>
+			<td id="totalNumbersHit12"></td>
 		</tr>
 		<tr>
-			<td>Amount on pass line: </td>
-			<td>
-				<select id = "amountOnPassline">
-				  <option value="15">15</option>
-				  <option value="5">5</option>
-				  <option value="10">10</option>
-				  <option value="20">20</option>
-				  <option value="25">25</option>
-				  <option value="50">50</option>
-				  <option value="100">100</option>
-				  <option value="0">0</option>
-				</select>
-			</td>
+			<td>Numbers Hit After A Point is Set</td>
+			<td id="timesHitAfterPoint2"></td>
+			<td id="timesHitAfterPoint3"></td>
+			<td id="timesHitAfterPoint4"></td>
+			<td id="timesHitAfterPoint5"></td>
+			<td id="timesHitAfterPoint6"></td>
+			<td id="timesHitAfterPoint7"></td>
+			<td id="timesHitAfterPoint8"></td>
+			<td id="timesHitAfterPoint9"></td>
+			<td id="timesHitAfterPoint10"></td>
+			<td id="timesHitAfterPoint11"></td>
+			<td id="timesHitAfterPoint12"></td>
 		</tr>
 		<tr>
-			<td>Amount to Back pass line: </td>
-			<td>
-				<select id = "passlineBackbetMultiplier">
-				  <option value="3">3x</option>
-				  <option value="1">1x</option>
-				  <option value="2">2x</option>
-				  <option value="4">4x</option>
-				  <option value="5">5x</option>
-				  <option value="0">0</option>
-				</select>
-			</td>
+			<td>Points Hit</td>
+			<td></td>
+			<td></td>
+			<td id="pointsHit4"></td>
+			<td id="pointsHit5"></td>
+			<td id="pointsHit6"></td>
+			<td id="pointsHit7"></td>
+			<td id="pointsHit8"></td>
+			<td id="pointsHit9"></td>
+			<td id="pointsHit10"></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<tr>
-			<td>Numbers to back: </td>
-			<td>
-				<table border=1 >
-					<tr>
-						<td>&nbsp;4<input type="checkbox" id="numbersToBack4" checked="checked" value="4">&nbsp;&nbsp;</td>
-						<td>&nbsp;5<input type="checkbox" id="numbersToBack5" checked="checked" value="5">&nbsp;&nbsp;</td>
-						<td>&nbsp;6<input type="checkbox" id="numbersToBack6" checked="checked" value="6">&nbsp;&nbsp;</td>
-						<td>&nbsp;8<input type="checkbox" id="numbersToBack8" checked="checked" value="8">&nbsp;&nbsp;</td>
-						<td>&nbsp;9<input type="checkbox" id="numbersToBack9" checked="checked" value="9">&nbsp;&nbsp;</td>
-						<td>10 <input type="checkbox" id="numbersToBack10" checked="checked" value="10">  </td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td>Play the field: </td>
-			<td>
-				<select id = "playField">
-				  <option value="false">No</option>
-				  <option value="true">Yes</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>Hard Way Amount: </td>
-			<td>
-				<select id = "hardWayAmount">
-				  <option value="0">0</option>
-				  <option value="1">1</option>
-				  <option value="5">5</option>
-				  <option value="10">10</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>Play Fire bet (pass line amount): </td>
-			<td>
-				<select id = "playFireBets">
-				  <option value="false">No</option>
-				  <option value="true">Yes</option>
-				</select>
-			</td>
+			<td>Points Lost</td>
+			<td></td>
+			<td></td>
+			<td id="pointsLost4"></td>
+			<td id="pointsLost5"></td>
+			<td id="pointsLost6"></td>
+			<td id="pointsLost7"></td>
+			<td id="pointsLost8"></td>
+			<td id="pointsLost9"></td>
+			<td id="pointsLost10"></td>
+			<td></td>
+			<td></td>
 		</tr>
 	</table>
-	<button class="button" onclick="play()">Play Craps</button>
-	<pre id="log"></pre>
+	</div>
+		<pre id="log" ></pre>
+	</div>
 </body>
 </html>
