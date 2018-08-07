@@ -134,6 +134,12 @@
 			totalResults.hardSixes += results.hardSixes;
 			totalResults.hardEights += results.hardEights;
 			totalResults.hardTens += results.hardTens;
+
+			totalResults.hardFoursAfterPointIsSet += results.hardFoursAfterPointIsSet;
+			totalResults.hardSixesAfterPointIsSet += results.hardSixesAfterPointIsSet;
+			totalResults.hardEightsAfterPointIsSet += results.hardEightsAfterPointIsSet;
+			totalResults.hardTensAfterPointIsSet += results.hardTensAfterPointIsSet;
+
 			totalResults.sevensOnFirstRoll += results.sevensOnFirstRoll;
 			totalResults.firstRollPasslineWins += results.firstRollPasslineWins;
 			totalResults.elevensOnFirstRoll += results.elevensOnFirstRoll;
@@ -262,10 +268,10 @@
 
 			console.log("totalPointsHit - " + results.totalPointsHit);
 
-			results.pointsHit = null;
-			results.pointsLost = null;
-			results.numbersHitAfterPointIsSet = null;
-			results.totalNumbersHit = null;
+			delete results.pointsHit;
+			delete results.pointsLost;
+			delete results.numbersHitAfterPointIsSet;
+			delete results.totalNumbersHit;
 			console.log("results - " + JSON.stringify(results, null, "\t"));
  			console.log("********************************************************");
 		}
@@ -400,7 +406,11 @@
 				'hardFours': 0,
 				'hardSixes': 0,
 				'hardEights': 0,
-				'hardTens': 0
+				'hardTens': 0,
+				'hardFoursAfterPointIsSet': 0,
+				'hardSixesAfterPointIsSet': 0,
+				'hardEightsAfterPointIsSet': 0,
+				'hardTensAfterPointIsSet': 0
 			};
 
 			var shooterLost = false;
@@ -444,6 +454,11 @@
 				if (dice1 === 3 && dice2 === 3) shooterStatistics.hardSixes++;
 				if (dice1 === 4 && dice2 === 4) shooterStatistics.hardEights++;
 				if (dice1 === 5 && dice2 === 5) shooterStatistics.hardTens++;
+
+				if (dice1 === 2 && dice2 === 2 && currentPoint > 0) shooterStatistics.hardFoursAfterPointIsSet++;
+				if (dice1 === 3 && dice2 === 3 && currentPoint > 0) shooterStatistics.hardSixesAfterPointIsSet++;
+				if (dice1 === 4 && dice2 === 4 && currentPoint > 0) shooterStatistics.hardEightsAfterPointIsSet++;
+				if (dice1 === 5 && dice2 === 5 && currentPoint > 0) shooterStatistics.hardTensAfterPointIsSet++;
 			}
 			shooterStatistics.firstRollPasslineWins = shooterStatistics.sevensOnFirstRoll + shooterStatistics.elevensOnFirstRoll;
 			return shooterStatistics;
