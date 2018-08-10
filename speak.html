@@ -1,0 +1,38 @@
+ 
+<html>
+<header>
+	<title>Talking notes</title></header>
+	<script type="text/javascript">
+
+		//copy pasta from https://stackoverflow.com/questions/20256760/javascript-console-log-to-html
+		//not the best.   but just wanted to output content to screen..   will improve later.  (maybe)
+		(function () {
+		    var old = console.log;
+		    console.log = function () {
+		      for (var i = 0; i < arguments.length; i++) {
+		        if (typeof arguments[i] == 'object') {
+		            document.getElementById('log').innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
+		        } else {
+		            document.getElementById('log').innerHTML += arguments[i] + '<br />';
+		        }
+		      }
+		    }
+		})();
+
+		function play() {
+			var msg = document.getElementById('message').value);
+			var msgObj = new SpeechSynthesisUtterance(msg);
+			window.speechSynthesis.speak(msgObj);
+		}
+
+	</script>
+<body>
+	<div style="float:left">
+		Enter Text: <input type="text" id="message"/>
+		<button class="button" onclick="play()">Talk</button>
+	</div>
+	</div>
+		<pre id="log" ></pre>
+	</div>
+</body>
+</html>
