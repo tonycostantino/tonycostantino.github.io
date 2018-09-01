@@ -1,7 +1,7 @@
  
 <html>
 <header>
-	<title>Talking notes</title></header>
+	<title>Counting!</title></header>
 	<script type="text/javascript">
 
 		//copy pasta from https://stackoverflow.com/questions/20256760/javascript-console-log-to-html
@@ -20,15 +20,29 @@
 		})();
 
 		function play() {
-			var msg = document.getElementById('message').value;
-			var msgObj = new SpeechSynthesisUtterance(msg);
-			window.speechSynthesis.speak(msgObj);
+			var numberToCount = document.getElementById('numberToCount').value;
+			for(var i = 1; i <= numberToCount; i++) {
+				var msgObj = new SpeechSynthesisUtterance(i);
+				window.speechSynthesis.speak(msgObj);
+				console.log("Counting " + i);
+			}
 		}
 
 	</script>
 <body>
 	<div style="float:left">
-		Enter Text: <input type="text" id="message"/>
+		number to count to: 
+		<select id = "numberToCount">
+		  <option value="5">5</option>
+		  <option value="10">10</option>
+		  <option value="20">20</option>
+		  <option value="50">50</option>
+		  <option value="100">100</option>
+		  <option value="300">300</option>
+		  <option value="500">500</option>
+		  <option value="1000">1000</option>
+		</select>
+
 		<button class="button" onclick="play()">Talk</button>
 	</div>
 	</div>
