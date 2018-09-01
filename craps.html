@@ -104,25 +104,23 @@
 			totalResults.maxPointsForShooter = maxPointsForShooter;
 			totalResults.shooterTurns = shooterTurns;
 
-			console.log("Results after " + shooterTurns + " shooter turns");
-			console.log("strategy - " + JSON.stringify(earnings, null, "\t"));
-			outputResultsToHtml(totalResults);
-			logResults(totalResults, crapsStrategy);
+			//console.log("Results after " + shooterTurns + " shooter turns");
+			//console.log("strategy - " + JSON.stringify(earnings, null, "\t"));
+			calculateBackbetEarnings(totalResults, crapsStrategy);
+			outputResultsToHtml(totalResults, earnings);
+			//logResults(totalResults, crapsStrategy);
 		}
 
 		function getDefaultEarnings() {
 			return { 
 				'maximumProfitsShooterNumber': 0, 
 				'maximumProfits': 0, 
-				'-': '-',
 				'minimumProfitsShooterNumber': 0, 
 				'minimumProfits': 0, 
-				'--- firebet stats ---': '-',
 				'fireBetWith4Points': 0,
 				'fireBetWith5Points': 0,
 				'fireBetWith6Points': 0,
 				'fireBetEarnings': 0, 
-				'--- earnings ---': '-',
 				'fieldEarnings': 0, 
 				'hardwayEarnings': 0,
 				'passlineEarnings': 0, 
@@ -170,8 +168,45 @@
 		    return copy;
 		}
 
-		function outputResultsToHtml(results) {
+		function outputResultsToHtml(results, earnings) {
 			document.getElementById('gameResults').style="float:right";
+
+
+
+			document.getElementById('finalResultsMessage').innerHTML = "Results after " + results.shooterTurns + " shooter turns";
+			document.getElementById('sevensOnFirstRoll').innerHTML = results.sevensOnFirstRoll;
+			document.getElementById('elevensOnFirstRoll').innerHTML = results.elevensOnFirstRoll;
+			document.getElementById('firstRollPasslineWins').innerHTML = results.firstRollPasslineWins;
+			document.getElementById('crapOnFirstRoll').innerHTML = results.crapOnFirstRoll;
+			document.getElementById('totalPointsHit').innerHTML = results.totalPointsHit;
+			document.getElementById('timesRolled').innerHTML = results.timesRolled;
+			document.getElementById('losingPoint').innerHTML = results.losingPoint;
+			document.getElementById('hardFours').innerHTML = results.hardFours;
+			document.getElementById('hardSixes').innerHTML = results.hardSixes;
+			document.getElementById('hardEights').innerHTML = results.hardEights;
+			document.getElementById('hardTens').innerHTML = results.hardTens;
+			document.getElementById('hardFoursAfterPointIsSet').innerHTML = results.hardFoursAfterPointIsSet;
+			document.getElementById('hardSixesAfterPointIsSet').innerHTML = results.hardSixesAfterPointIsSet;
+			document.getElementById('hardEightsAfterPointIsSet').innerHTML = results.hardEightsAfterPointIsSet;
+			document.getElementById('hardTensAfterPointIsSet').innerHTML = results.hardTensAfterPointIsSet;
+			document.getElementById('maxRollsForShooter').innerHTML = results.maxRollsForShooter;
+			document.getElementById('maxPointsForShooter').innerHTML = results.maxPointsForShooter;
+
+			document.getElementById('maximumProfitsShooterNumber').innerHTML = earnings.maximumProfitsShooterNumber;
+			document.getElementById('maximumProfits').innerHTML = earnings.maximumProfitsShooterNumber;
+			document.getElementById('minimumProfitsShooterNumber').innerHTML = earnings.minimumProfitsShooterNumber;
+			document.getElementById('minimumProfits').innerHTML = earnings.minimumProfits;
+			document.getElementById('fireBetWith4Points').innerHTML = earnings.fireBetWith4Points;
+			document.getElementById('fireBetWith5Points').innerHTML = earnings.fireBetWith5Points;
+			document.getElementById('fireBetWith6Points').innerHTML = earnings.fireBetWith6Points;
+			document.getElementById('fireBetEarnings').innerHTML = earnings.fireBetEarnings;
+			document.getElementById('fieldEarnings').innerHTML = earnings.fieldEarnings;
+			document.getElementById('hardwayEarnings').innerHTML = earnings.hardwayEarnings;
+			document.getElementById('passlineEarnings').innerHTML = earnings.passlineEarnings;
+			document.getElementById('totalEarnings').innerHTML = earnings.totalEarnings;
+
+
+
 			document.getElementById('timesHitAfterPoint2').innerHTML = results.numbersHitAfterPointIsSet[2];
 			document.getElementById('timesHitAfterPoint3').innerHTML = results.numbersHitAfterPointIsSet[3];
 			document.getElementById('timesHitAfterPoint4').innerHTML = results.numbersHitAfterPointIsSet[4];
@@ -212,27 +247,24 @@
 			document.getElementById('pointsLost9').innerHTML = results.pointsLost[9];
 			document.getElementById('pointsLost10').innerHTML = results.pointsLost[10];
 
+
+
 		}
 
-		function logResults(results, strategy) {
- 			console.log("********************************************************");
-		
+		function calculateBackbetEarnings(results, strategy) {
 			var backbet = strategy.passlineBackbetMultiplier * strategy.amountOnPassline;
 
 			var pointGroupsHit = [];
 			pointGroupsHit['foursTens'] = {
 				'amount': 0,
-				'message': '4s & 10s hit -> ', 
 				'backbetPayout': Math.floor(backbet * strategy.backbetPayoutMultipliers[4])
 			};
 			pointGroupsHit['fivesNines'] = {
 				'amount': 0, 
-				'message': '5s & 9s hit  -> ', 
 				'backbetPayout': Math.floor(backbet * strategy.backbetPayoutMultipliers[5])
 			};
 			pointGroupsHit['sixesEights'] = {
 				'amount': 0, 
-				'message': '6s & 8s hit  -> ', 
 				'backbetPayout': Math.floor(backbet * strategy.backbetPayoutMultipliers[6])
 			};
 
@@ -255,17 +287,22 @@
 				}
 			}
 
-			var totalBackbetpayout = 0;
-			var currPayout = 0;
-			for(var group in pointGroupsHit) {
-				currPayout = pointGroupsHit[group].amount * pointGroupsHit[group].backbetPayout;
-				console.log(pointGroupsHit[group].message + pointGroupsHit[group].amount + " --- earnings if backed -> " +
-				 pointGroupsHit[group].amount + " * " + pointGroupsHit[group].backbetPayout + " = " + currPayout);
-				totalBackbetpayout+=currPayout;
-			}
+			document.getElementById('fourTenTimesHit').innerHTML = pointGroupsHit['foursTens'].amount;
+			document.getElementById('fiveNineTimesHit').innerHTML = pointGroupsHit['fivesNines'].amount;
+			document.getElementById('sixEightTimesHit').innerHTML = pointGroupsHit['sixesEights'].amount;
+
+			document.getElementById('fourTenEarnings').innerHTML = pointGroupsHit['foursTens'].backbetPayout * pointGroupsHit['foursTens'].amount;
+			document.getElementById('fiveNineEarnings').innerHTML = pointGroupsHit['fivesNines'].backbetPayout * pointGroupsHit['fivesNines'].amount;
+			document.getElementById('sixEightEarnings').innerHTML = pointGroupsHit['sixesEights'].backbetPayout * pointGroupsHit['sixesEights'].amount;
 
 
-			console.log("totalBackbetpayout - " + totalBackbetpayout);
+
+		}
+
+		function logResults(results, strategy) {
+ 			console.log("********************************************************");
+		
+
 
 			console.log("totalPointsHit - " + results.totalPointsHit);
 
@@ -563,69 +600,113 @@
 		<button class="button" onclick="play()">Play Craps</button>
 	</div>
 	<div id="gameResults" style="float:right;visibility:hidden;">
-	<div>
-		<table border="1" cellpadding="5">
-		<tr>
-			<td></td><td>2</td> <td>3</td> <td>4</td> <td>5</td> <td>6</td> <td>7</td> <td>8</td> <td>9</td> <td>10</td> <td>11</td> <td>12</td> 
-		</tr> 
-		<tr>
-			<td>Total Numbers Hit</td>
-			<td id="totalNumbersHit2"></td>
-			<td id="totalNumbersHit3"></td>
-			<td id="totalNumbersHit4"></td>
-			<td id="totalNumbersHit5"></td>
-			<td id="totalNumbersHit6"></td>
-			<td id="totalNumbersHit7"></td>
-			<td id="totalNumbersHit8"></td>
-			<td id="totalNumbersHit9"></td>
-			<td id="totalNumbersHit10"></td>
-			<td id="totalNumbersHit11"></td>
-			<td id="totalNumbersHit12"></td>
-		</tr>
-		<tr>
-			<td>Numbers Hit After A Point is Set</td>
-			<td id="timesHitAfterPoint2"></td>
-			<td id="timesHitAfterPoint3"></td>
-			<td id="timesHitAfterPoint4"></td>
-			<td id="timesHitAfterPoint5"></td>
-			<td id="timesHitAfterPoint6"></td>
-			<td id="timesHitAfterPoint7"></td>
-			<td id="timesHitAfterPoint8"></td>
-			<td id="timesHitAfterPoint9"></td>
-			<td id="timesHitAfterPoint10"></td>
-			<td id="timesHitAfterPoint11"></td>
-			<td id="timesHitAfterPoint12"></td>
-		</tr>
-		<tr>
-			<td>Points Hit</td>
-			<td></td>
-			<td></td>
-			<td id="pointsHit4"></td>
-			<td id="pointsHit5"></td>
-			<td id="pointsHit6"></td>
-			<td id="pointsHit7"></td>
-			<td id="pointsHit8"></td>
-			<td id="pointsHit9"></td>
-			<td id="pointsHit10"></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>Points Lost</td>
-			<td></td>
-			<td></td>
-			<td id="pointsLost4"></td>
-			<td id="pointsLost5"></td>
-			<td id="pointsLost6"></td>
-			<td id="pointsLost7"></td>
-			<td id="pointsLost8"></td>
-			<td id="pointsLost9"></td>
-			<td id="pointsLost10"></td>
-			<td></td>
-			<td></td>
-		</tr>
-	</table>
-	</div>
+		<div>
+			<p id="finalResultsMessage"></p>
+			<table border="1" cellpadding="5">
+			<tr>
+				<tr><td>Maximum Profits Shooter Number</td><td id="maximumProfitsShooterNumber"></td> </tr>
+				<tr><td>Maximum Profits</td><td id="maximumProfits"></td> </tr>
+				<tr><td>Minimum Profits Shooter Number</td><td id="minimumProfitsShooterNumber"></td> </tr>
+				<tr><td>Minimum Profits</td><td id="minimumProfits"></td> </tr>
+				<tr><td>Firebet With 4 Points</td><td id="fireBetWith4Points"></td> </tr>
+				<tr><td>Firebet With 5 Points</td><td id="fireBetWith5Points"></td> </tr>
+				<tr><td>Firebet With 6 Points</td><td id="fireBetWith6Points"></td> </tr>
+				<tr><td>Firebet Earnings</td><td id="fireBetEarnings"></td> </tr>
+				<tr><td>Field Earnings</td><td id="fieldEarnings"></td> </tr>
+				<tr><td>HardWay Earnings</td><td id="hardwayEarnings"></td> </tr>
+				<tr><td>Passline Earnings</td><td id="passlineEarnings"></td> </tr>
+				<tr><td>Total Earnings</td><td id="totalEarnings"></td> </tr>
+
+				<tr><td>sevensOnFirstRoll</td><td id="sevensOnFirstRoll"></td></tr>
+				<tr><td>elevensOnFirstRoll</td><td id="elevensOnFirstRoll"></td></tr>
+				<tr><td>firstRollPasslineWins</td><td id="firstRollPasslineWins"></td></tr>
+				<tr><td>crapOnFirstRoll</td><td id="crapOnFirstRoll"></td></tr>
+				<tr><td>totalPointsHit</td><td id="totalPointsHit"></td></tr>
+				<tr><td>timesRolled</td><td id="timesRolled"></td></tr>
+				<tr><td>losingPoint</td><td id="losingPoint"></td></tr>
+				<tr><td>hardFours</td><td id="hardFours"></td></tr>
+				<tr><td>hardSixes</td><td id="hardSixes"></td></tr>
+				<tr><td>hardEights</td><td id="hardEights"></td></tr>
+				<tr><td>hardTens</td><td id="hardTens"></td></tr>
+				<tr><td>hardFoursAfterPointIsSet</td><td id="hardFoursAfterPointIsSet"></td></tr>
+				<tr><td>hardSixesAfterPointIsSet</td><td id="hardSixesAfterPointIsSet"></td></tr>
+				<tr><td>hardEightsAfterPointIsSet</td><td id="hardEightsAfterPointIsSet"></td></tr>
+				<tr><td>hardTensAfterPointIsSet</td><td id="hardTensAfterPointIsSet"></td></tr>
+				<tr><td>maxRollsForShooter</td><td id="maxRollsForShooter"></td></tr>
+				<tr><td>maxPointsForShooter</td><td id="maxPointsForShooter"></td></tr>
+
+			</tr> 
+			</table>
+			<table border="1" cellpadding="5">
+			<tr>
+				<tr><td>Point Group</td><td>Times Hit</td><td>Earnings</td></tr>
+				<tr><td>4s and 10s</td><td id="fourTenTimesHit"></td><td id="fourTenEarnings"></td></tr>
+				<tr><td>5s and 9s</td> <td id="fiveNineTimesHit"></td><td id="fiveNineEarnings"></td></tr>
+				<tr><td>6s and 8s</td> <td id="sixEightTimesHit"></td><td id="sixEightEarnings"></td></tr>
+			</tr> 
+			</table>
+			<table border="1" cellpadding="5">
+			<tr>
+				<td></td><td>2</td> <td>3</td> <td>4</td> <td>5</td> <td>6</td> <td>7</td> <td>8</td> <td>9</td> <td>10</td> <td>11</td> <td>12</td> 
+			</tr> 
+			<tr>
+				<td>Total Numbers Hit</td>
+				<td id="totalNumbersHit2"></td>
+				<td id="totalNumbersHit3"></td>
+				<td id="totalNumbersHit4"></td>
+				<td id="totalNumbersHit5"></td>
+				<td id="totalNumbersHit6"></td>
+				<td id="totalNumbersHit7"></td>
+				<td id="totalNumbersHit8"></td>
+				<td id="totalNumbersHit9"></td>
+				<td id="totalNumbersHit10"></td>
+				<td id="totalNumbersHit11"></td>
+				<td id="totalNumbersHit12"></td>
+			</tr>
+			<tr>
+				<td>Numbers Hit After A Point is Set</td>
+				<td id="timesHitAfterPoint2"></td>
+				<td id="timesHitAfterPoint3"></td>
+				<td id="timesHitAfterPoint4"></td>
+				<td id="timesHitAfterPoint5"></td>
+				<td id="timesHitAfterPoint6"></td>
+				<td id="timesHitAfterPoint7"></td>
+				<td id="timesHitAfterPoint8"></td>
+				<td id="timesHitAfterPoint9"></td>
+				<td id="timesHitAfterPoint10"></td>
+				<td id="timesHitAfterPoint11"></td>
+				<td id="timesHitAfterPoint12"></td>
+			</tr>
+			<tr>
+				<td>Points Hit</td>
+				<td></td>
+				<td></td>
+				<td id="pointsHit4"></td>
+				<td id="pointsHit5"></td>
+				<td id="pointsHit6"></td>
+				<td id="pointsHit7"></td>
+				<td id="pointsHit8"></td>
+				<td id="pointsHit9"></td>
+				<td id="pointsHit10"></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Points Lost</td>
+				<td></td>
+				<td></td>
+				<td id="pointsLost4"></td>
+				<td id="pointsLost5"></td>
+				<td id="pointsLost6"></td>
+				<td id="pointsLost7"></td>
+				<td id="pointsLost8"></td>
+				<td id="pointsLost9"></td>
+				<td id="pointsLost10"></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		</div>
 		<pre id="log" ></pre>
 	</div>
 </body>
