@@ -1,7 +1,23 @@
  
 <html>
 <header>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<title>Counting!</title></header>
+	<style type="text/css">
+		.button {
+			background-color: #FF0000;
+			border: none;
+			color: white;
+			padding: 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			border-radius: 12px
+		}
+
+	</style>
 	<script type="text/javascript">
 
 		//copy pasta from https://stackoverflow.com/questions/20256760/javascript-console-log-to-html
@@ -19,31 +35,32 @@
 		    }
 		})();
 
-		function play() {
+		function count() {
 			var numberToCount = document.getElementById('numberToCount').value;
+			console.log("Counting to " + numberToCount);
 			for(var i = 1; i <= numberToCount; i++) {
 				var msgObj = new SpeechSynthesisUtterance(i);
 				window.speechSynthesis.speak(msgObj);
-				console.log("Counting " + i);
 			}
 		}
 
 	</script>
+</header>
 <body>
 	<div style="float:left">
 		number to count to: 
 		<select id = "numberToCount">
+		  <option value="100">100</option>
 		  <option value="5">5</option>
 		  <option value="10">10</option>
 		  <option value="20">20</option>
 		  <option value="50">50</option>
-		  <option value="100">100</option>
 		  <option value="300">300</option>
 		  <option value="500">500</option>
 		  <option value="1000">1000</option>
 		</select>
 
-		<button class="button" onclick="play()">Talk</button>
+		<button class="button" onclick="count()">Count</button>
 	</div>
 	</div>
 		<pre id="log" ></pre>
