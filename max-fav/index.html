@@ -1,22 +1,37 @@
 <html>
 <header>
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<title>Max's Favorites</title>
+	<title>Costantino Kid's Favorites</title>
 </header>
 <body>
 	<div style="float:left; font-size:x-large">
 		<ul>
 			<li><a href="funny-cat-video.html">Funny Cat Video</a></li>
-			<li><a href="gangnam-style.html">Gangnam Style</a></li>
-			<li><a href="weekend-heartless.html">Weekend - Heartless</a></li>
-			<li><a href="sunflower.html">Sunflower</a></li>
-			<li><a href="old-town-road.html">Old Town Road</a></li>
-			<li><a href="weekend-blinding-lights.html">Weekend - Blinding Lights</a></li>
-			<li><a href="max-books.html">Max Books</a></li>
-			<li><a href="boston-peace-of-mind.html">Boston - Peace of Mind</a></li>
-			<li><a href="skrillex-have-you-ever.html">Skrillex - Have you Ever</a></li>
-			<li><a href="counting-crows-a-long-december.html">Counting Crows - A Long December</a></li>
 		</ul>
+		<ul id="video_list"></ul>
+
 	</div>
 </body>
+
+<footer>
+	<script type="text/javascript">
+		var videos = [];
+		videos["Boston - Peace of Mind"] = "Q5ZL8qvEmR0";
+		videos["Counting Crows - A Long December"] = "1D5PtyrewSs";
+		videos["Gangnam Style"] = "9bZkp7q19f0";
+		videos["Old Town Road"] = "w2Ov5jzm3j8";
+		videos["Max Books"] = "uQ0zWDnyy70";
+		videos["Skrillex - Have you Ever"] = "r-SurvChGFk";
+		videos["Sunflower"] = "ApXoWvfEYVU";
+		videos["Weekend - Blinding Lights"] = "fHI8X4OXluQ";
+		videos["Weekend - Heartless"] = "1DpH-icPpl0";
+
+		var youtubelist = "";
+		for (var key in videos) 
+		{
+			youtubelist+="<li><a href=\"youtube.html?youtubeid=" + videos[key] + "&videotitle=" + key + "\">" + key + "</a></li>"
+		}
+		document.getElementById('video_list').innerHTML = youtubelist;
+	</script>
+</footer>
 </html>
