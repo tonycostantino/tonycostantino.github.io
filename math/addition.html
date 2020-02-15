@@ -7,7 +7,7 @@
 	<div>
 		<span id="value1"></span> + <span id="value2"></span> = 
 		<input type="number" id="answer"/>
-		<button onclick="checkAnswer()">Check Answer</button>
+		<button id="clickAnswer" onclick="checkAnswer()">Check Answer</button>
 	</div>
 	<div> 
 		Attempts: <span id="totalRight">0</span> / <span id="totalAttempted">0</span>
@@ -24,6 +24,13 @@
 			document.getElementById('value1').innerHTML = generateRandomNumber(range);
 			document.getElementById('value2').innerHTML = generateRandomNumber(range);
 		}
+
+		document.getElementById('answer').addEventListener('keyup', function(event) {
+		    event.preventDefault();
+		    if (event.keyCode === 13) {
+		        document.getElementById('clickAnswer').click();
+		    }
+		});
 
 		function checkAnswer() {
 			var value1 = getIntFromId('value1');
