@@ -1,0 +1,19 @@
+<html>
+<header>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>Math - Addition</title>
+</header>
+<body>
+	<div id="current_problem">5 + 5 = </div>
+	<input type="number" id="answer"/>
+</body>
+<footer>
+	<script type="text/javascript">
+		const urlParams = new URLSearchParams(window.location.search);
+		const youtubeid = urlParams.get('youtubeid');
+		const videotitle = urlParams.get('videotitle');
+        document.getElementById('youtube').setAttribute("src", "https://www.youtube.com/embed/" + youtubeid);
+		document.getElementById('youtube_title').innerHTML = videotitle;
+	</script>
+</footer>
+</html>
