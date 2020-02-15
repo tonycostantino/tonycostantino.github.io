@@ -27,7 +27,7 @@
 
 		document.getElementById('answer').addEventListener('keyup', function(event) {
 		    event.preventDefault();
-		    if (event.keyCode === 13) {
+		    if (event.keyCode === 13 && parseInt(document.getElementById('answer').value >=0) {
 		        document.getElementById('clickAnswer').click();
 		    }
 		});
