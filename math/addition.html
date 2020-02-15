@@ -1,13 +1,13 @@
 <html>
 <header>
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<title>Math - Multiplication</title>
+	<title>Math - Addition</title>
 </header>
 <body>
 	<div>
 		<span id="value1"></span> + <span id="value2"></span> = 
 		<input type="number" id="answer"/>
-		<button id="clickAnswer" onclick="checkAnswer()">Check Answer</button>
+		<button id="clickAnswer" onclick="checkAnswer('addition')">Check Answer</button>
 	</div>
 	<div> 
 		Attempts: <span id="totalRight">0</span> / <span id="totalAttempted">0</span>
@@ -17,60 +17,6 @@
 	</div>
 </body>
 <footer>
-	<script type="text/javascript">
-		renderMathProblem(10, 10);
-		function renderMathProblem(range1, range2) {
-			document.getElementById('answer').value = "";
-			document.getElementById('value1').innerHTML = generateRandomNumber(range1);
-			document.getElementById('value2').innerHTML = generateRandomNumber(range2);
-		}
-
-		document.getElementById('answer').addEventListener('keyup', function(event) {
-		    event.preventDefault();
-		    if (event.keyCode === 13 && parseInt(document.getElementById('answer').value) >=0) {
-		        document.getElementById('clickAnswer').click();
-		    }
-		});
-
-		function checkAnswer() {
-			var value1 = getIntFromId('value1');
-			var value2 = getIntFromId('value2');
-			var correctAnswer =  value1 + value2;
-
-			var currAnswer = parseInt(document.getElementById('answer').value);	
-			var answeredCorrectly =  (currAnswer == correctAnswer);
-			updateStats(answeredCorrectly);
-			renderMathProblem(10, 10);
-		}
-
-		function updateStats(answeredCorrectly) {
-			var totalRight =  getIntFromId('totalRight');
-			var totalAttempted =  getIntFromId('totalAttempted');
-			totalAttempted++;
-
-			if (answeredCorrectly) {
-				totalRight++;
-			}
-			var percentRight = 0;
-
-			if (totalRight > 0 ) {
-				percentRight = ((totalRight/totalAttempted) * 100).toFixed(2);
-			}
-
-			document.getElementById('totalRight').innerHTML = totalRight;
-			document.getElementById('totalAttempted').innerHTML = totalAttempted;
-			document.getElementById('percentRight').innerHTML = percentRight;
-		}
-
-
-		function getIntFromId(elementId) {
-			return parseInt(document.getElementById(elementId).innerHTML.trim());	
-		}
-
-
-		function generateRandomNumber(range) {
-			return Math.round(Math.random() * range);
-		}
-	</script>
+	<script type="text/javascript" src="math.js"></script>
 </footer>
 </html>
