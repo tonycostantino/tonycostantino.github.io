@@ -5,7 +5,7 @@
 </header>
 <body>
 	<div>
-		<span id="value1"></span> + <span id="value2"></span> = 
+		<span id="value1"></span> x <span id="value2"></span> = 
 		<input type="number" id="answer"/>
 		<button onclick="checkAnswer()">Check Answer</button>
 	</div>
@@ -28,7 +28,7 @@
 		function checkAnswer() {
 			var value1 = getIntFromId('value1');
 			var value2 = getIntFromId('value2');
-			var correctAnswer =  value1 + value2;
+			var correctAnswer =  value1 * value2;
 
 			var currAnswer = parseInt(document.getElementById('answer').value);	
 			var answeredCorrectly =  (currAnswer == correctAnswer);
