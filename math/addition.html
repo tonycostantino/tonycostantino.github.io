@@ -19,7 +19,7 @@
 <footer>
 	<script type="text/javascript">
 		renderAdditionProblem(10, 10);
-		function renderAdditionProblem(range1, range2) {
+		function renderMathProblem(range1, range2) {
 			document.getElementById('answer').value = "";
 			document.getElementById('value1').innerHTML = generateRandomNumber(range1);
 			document.getElementById('value2').innerHTML = generateRandomNumber(range2);
@@ -40,13 +40,10 @@
 			var currAnswer = parseInt(document.getElementById('answer').value);	
 			var answeredCorrectly =  (currAnswer == correctAnswer);
 			updateStats(answeredCorrectly);
-			renderAdditionProblem(10, 10);
-
+			renderMathProblem(10, 10);
 		}
 
 		function updateStats(answeredCorrectly) {
-
-
 			var totalRight =  getIntFromId('totalRight');
 			var totalAttempted =  getIntFromId('totalAttempted');
 			totalAttempted++;
