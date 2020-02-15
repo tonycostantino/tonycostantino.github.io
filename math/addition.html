@@ -4,16 +4,70 @@
 	<title>Math - Addition</title>
 </header>
 <body>
-	<div id="current_problem">5 + 5 = </div>
-	<input type="number" id="answer"/>
+	<div>
+		<span id="value1"></span> + <span id="value2"></span> = 
+		<input type="number" id="answer"/>
+		<button onclick="checkAnswer()">Check Answer</button>
+	</div>
+	<div> 
+		Attempts: <span id="totalRight">0</span> / <span id="totalAttempted">0</span>
+	</div>
+	<div>
+		Percentage: <span id="percentRight">0</span>%
+	</div>
 </body>
 <footer>
 	<script type="text/javascript">
-		const urlParams = new URLSearchParams(window.location.search);
-		const youtubeid = urlParams.get('youtubeid');
-		const videotitle = urlParams.get('videotitle');
-        document.getElementById('youtube').setAttribute("src", "https://www.youtube.com/embed/" + youtubeid);
-		document.getElementById('youtube_title').innerHTML = videotitle;
+		renderAdditionProblem(10);
+		function renderAdditionProblem(range) {
+			document.getElementById('answer').value = "";
+			document.getElementById('value1').innerHTML = generateRandomNumber(range);
+			document.getElementById('value2').innerHTML = generateRandomNumber(range);
+		}
+
+		function checkAnswer() {
+			var value1 = getIntFromId('value1');
+			var value2 = getIntFromId('value2');
+			var correctAnswer =  value1 + value2;
+
+			var currAnswer = parseInt(document.getElementById('answer').value);	
+			var answeredCorrectly =  (currAnswer == correctAnswer);
+			console.log(value1 + ' + ' + value2 + ' = ' + correctAnswer + " " + answeredCorrectly);
+			updateStats(answeredCorrectly);
+			renderAdditionProblem(10);
+
+		}
+
+		function updateStats(answeredCorrectly) {
+
+
+			var totalRight =  getIntFromId('totalRight');
+			var totalAttempted =  getIntFromId('totalAttempted');
+			totalAttempted++;
+
+			if (answeredCorrectly) {
+				totalRight++;
+			}
+			var percentRight = 0;
+
+			if (totalRight > 0 ) {
+				percentRight = ((totalRight/totalAttempted) * 100).toFixed(2);
+			}
+
+			document.getElementById('totalRight').innerHTML = totalRight;
+			document.getElementById('totalAttempted').innerHTML = totalAttempted;
+			document.getElementById('percentRight').innerHTML = percentRight;
+		}
+
+
+		function getIntFromId(elementId) {
+			return parseInt(document.getElementById(elementId).innerHTML.trim());	
+		}
+
+
+		function generateRandomNumber(range) {
+			return Math.round(Math.random() * range);
+		}
 	</script>
 </footer>
 </html>
