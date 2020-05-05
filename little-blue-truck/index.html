@@ -190,7 +190,8 @@
 		function printRandomWord(words) {
 	        var wordKeys = Object.keys(words);
 	        var randKey = wordKeys[Math.floor(Math.random() * wordKeys.length)];
-			document.getElementById('word').innerHTML = randKey.charAt(0).toUpperCase() + randKey.slice(1);
+	        var uppercaseFirstletterWord = randKey.charAt(0).toUpperCase() + randKey.slice(1);
+			document.getElementById('word').innerHTML = uppercaseFirstletterWord;
 			delete words[randKey];
 			document.getElementById('theButton').innerHTML = wordKeys.length + " words left";
 
