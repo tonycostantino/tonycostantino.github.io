@@ -1,0 +1,202 @@
+<html>
+<header>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>Little Blue Truck Words</title>
+	<style type="text/css">
+		.block {
+		  display: block;
+		  width: 25%;
+		  border: none;
+		  background-color: #4CAF50;
+		  padding: 14px 28px;
+		  font-size: 16px;
+		  cursor: pointer;
+		  text-align: center;
+		}
+	</style>
+</header>
+<body>
+	<div style="float:left; font-size:x-large" id="word"></div><br/><br/>
+	<button onclick="printRandomWord(words)" class="block" id="theButton">Next Word</button>
+
+</body>
+<footer>
+	<script type="text/javascript">
+		var words = {
+		  "a": 14,
+		  "all": 3,
+		  "along": 1,
+		  "an": 1,
+		  "and": 14,
+		  "around": 1,
+		  "at": 1,
+		  "baaa": 2,
+		  "beep": 15,
+		  "big": 6,
+		  "blue": 15,
+		  "both": 1,
+		  "brother": 1,
+		  "brown": 1,
+		  "budge": 1,
+		  "bump": 3,
+		  "but": 2,
+		  "by": 1,
+		  "came": 4,
+		  "can": 1,
+		  "cared": 1,
+		  "check": 2,
+		  "chicken": 1,
+		  "cluck": 2,
+		  "coming": 1,
+		  "couldn't": 1,
+		  "course": 1,
+		  "cow": 2,
+		  "cried": 2,
+		  "croak": 2,
+		  "curve": 1,
+		  "day": 1,
+		  "deep": 1,
+		  "depends": 1,
+		  "do": 1,
+		  "down": 2,
+		  "duck": 3,
+		  "dump": 8,
+		  "duty": 1,
+		  "engine": 1,
+		  "ever": 1,
+		  "every": 1,
+		  "everybody": 3,
+		  "eye": 1,
+		  "fat": 1,
+		  "fence": 1,
+		  "few": 1,
+		  "flapping": 1,
+		  "free": 1,
+		  "friendliest": 1,
+		  "friendly": 1,
+		  "friends": 1,
+		  "from": 1,
+		  "gallop": 1,
+		  "goat": 2,
+		  "good": 1,
+		  "got": 2,
+		  "green": 2,
+		  "hand": 1,
+		  "haven't": 1,
+		  "he": 3,
+		  "head": 2,
+		  "heard": 3,
+		  "heavy": 2,
+		  "help": 4,
+		  "helped": 2,
+		  "helping": 1,
+		  "hen": 1,
+		  "her": 1,
+		  "his": 3,
+		  "honk": 2,
+		  "hopped": 1,
+		  "horn": 1,
+		  "horse": 2,
+		  "i": 2,
+		  "i'm": 2,
+		  "i've": 1,
+		  "important": 2,
+		  "in": 1,
+		  "inside": 1,
+		  "into": 2,
+		  "jump": 1,
+		  "jumped": 1,
+		  "last": 1,
+		  "little": 9,
+		  "load": 1,
+		  "lot": 1,
+		  "maaa": 2,
+		  "me": 1,
+		  "might": 1,
+		  "mire": 1,
+		  "moo": 2,
+		  "muck": 1,
+		  "mud": 2,
+		  "neigh": 2,
+		  "nobody": 2,
+		  "now": 2,
+		  "of": 1,
+		  "oink": 2,
+		  "on": 1,
+		  "one": 2,
+		  "over": 1,
+		  "pass": 1,
+		  "peep": 2,
+		  "pig": 1,
+		  "piggy": 1,
+		  "puddle": 1,
+		  "purred": 1,
+		  "push": 1,
+		  "pushed": 4,
+		  "quack": 1,
+		  "quick": 1,
+		  "quite": 1,
+		  "ran": 1,
+		  "ride": 1,
+		  "road": 1,
+		  "rolled": 1,
+		  "rolling": 1,
+		  "rooom": 1,
+		  "rump": 2,
+		  "running": 1,
+		  "said": 15,
+		  "saw": 1,
+		  "scared": 1,
+		  "scrambled": 1,
+		  "see": 1,
+		  "sheep": 2,
+		  "sounded": 1,
+		  "sounds": 1,
+		  "stuck": 4,
+		  "sunk": 1,
+		  "swerve": 1,
+		  "thanks": 1,
+		  "that": 2,
+		  "the": 25,
+		  "then": 2,
+		  "they": 3,
+		  "things": 1,
+		  "three": 1,
+		  "through": 1,
+		  "tight": 1,
+		  "time": 1,
+		  "tires": 1,
+		  "to": 9,
+		  "toad": 3,
+		  "together": 1,
+		  "tried": 1,
+		  "truck": 10,
+		  "trucks": 1,
+		  "two": 1,
+		  "up": 2,
+		  "wants": 1,
+		  "way": 1,
+		  "went": 3,
+		  "were": 3,
+		  "wheels": 1,
+		  "when": 1,
+		  "who": 3,
+		  "winked": 1,
+		  "with": 4,
+		  "yelled": 1,
+		  "you": 3
+		};
+
+		function printRandomWord(words) {
+	        var wordKeys = Object.keys(words);
+	        var randKey = wordKeys[Math.floor(Math.random() * wordKeys.length)];
+			document.getElementById('word').innerHTML = randKey.charAt(0).toUpperCase() + randKey.slice(1);
+			delete words[randKey];
+			document.getElementById('theButton').innerHTML = wordKeys.length + " words left";
+
+		}
+		printRandomWord(words);
+
+	</script>
+</footer>
+</html>
