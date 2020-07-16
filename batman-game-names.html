@@ -5,36 +5,50 @@
 </header>
 <body>
 	<div style="float:left; font-size:xx-large;">
-		<ul>
-            <li>Batman</li>
-            <li>Bane</li>
-            <li>Brainiac</li>
-            <li>Catwoman</li>
-            <li>Robin</li>
-            <li>Lex Luther</li>
-            <li>Killer Croc</li>
-            <li>Two face</li>
-            <li>Poison Ivy</li>
-            <li>Black Manta</li>
-            <li>Joker</li>
-            <li>Joker Guards</li>
-            <li>Joker's Robot</li>
-            <li>Lex Luther's Robot</li>
-            <li>Mad Hatter</li>
-            <li>Lexbot</li>
-            <li>Mr. Freeze</li>
-            <li>Mr. Zsasz</li>
-            <li>Powerful Joker Guards</li>
-            <li>Harley Quinn</li>
-            <li>Penguin</li>
-            <li>Poison Ivy Gaurd</li>
-            <li>Lexcorp Guard</li>
-            <li>Powerful Lexcorp Guard</li>
-            <li>Lexcorp Receptionist</li>
-            <li>Riddler</li>
-            <li>Riddler Guards</li>
-            <li>Scarecrow</li>
-		</ul>
+            <ul id="name_list"></ul>
 	</div>
 </body>
+<footer>
+      <script type="text/javascript">
+            var names = [
+                  "Batman",
+                  "Bane",
+                  "Brainiac",
+                  "Catwoman",
+                  "Robin",
+                  "Lex Luther",
+                  "Killer Croc",
+                  "Two face",
+                  "Poison Ivy",
+                  "Black Manta",
+                  "Joker",
+                  "Joker Guards",
+                  "Joker's Robot",
+                  "Lex Luther's Robot",
+                  "Mad Hatter",
+                  "Lexbot",
+                  "Mr. Freeze",
+                  "Mr. Zsasz",
+                  "Powerful Joker Guards",
+                  "Harley Quinn",
+                  "Penguin",
+                  "Poison Ivy Gaurd",
+                  "Lexcorp Guard",
+                  "Powerful Lexcorp Guard",
+                  "Lexcorp Receptionist",
+                  "Riddler",
+                  "Riddler Guards",
+                  "Scarecrow"
+            ];
+
+            names.sort();
+
+            var namelist = "";
+            for (var key in names) 
+            {
+                  namelist+="<li>" + names[key] + "</li>"
+            }
+            document.getElementById('name_list').innerHTML = namelist;
+      </script>   
+</footer>
 </html>
