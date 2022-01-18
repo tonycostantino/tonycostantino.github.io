@@ -3,9 +3,17 @@
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<title>Mommy Cash!</title>
 	<style type="text/css">
-		table, th, td {
-		  border: 1px solid black;
-		  padding: 5px;
+		table, td {
+			border: 1px solid black;
+			padding: 5px;
+			font-size: xx-large;
+			font-weight: solid;
+		}
+		th, td {
+			font-size: 12px;
+			font-weight: bold;
+			border: 1px solid black;
+			padding: 5px;
 		}
 	</style>
 </header>
@@ -25,17 +33,18 @@
             mommyCashDays["2021-01-17"] = {ammount:20, note:"Example Note Here"};
 
 
-            var events = "<tr><td colspan=\"3\">Mommy Cash Events!!</td></tr>";
+            var events = "<tr><td>Date</td><td>Ammount</td><td>Note</td></tr>";
             var totalMommyCash = 0;
             for (var key in mommyCashDays) 
             {
+            	  var currentSymbol = (mommyCashDays[key].ammount < 0) ? "-$" : "+$"
                   events+="<tr><td>" + key + "</td>";
-                  events+="<td>" + mommyCashDays[key].ammount + "</td>";
+                  events+="<td>" + currentSymbol + mommyCashDays[key].ammount + "</td>";
                   events+="<td>" + mommyCashDays[key].note + "</td></tr>";
 
                   totalMommyCash+= mommyCashDays[key].ammount;
             }
-            events+= "<tr><td colspan=\"3\">Total Mommy Cash = " + totalMommyCash + "</td></tr>";
+            events+= "<tr><td colspan=\"3\">Total Mommy Cash $" + totalMommyCash + "</td></tr>";
             document.getElementById('event_list').innerHTML = events;
       </script>   
 </footer>
