@@ -1,0 +1,42 @@
+<html>
+<header>
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>Mommy Cash!</title>
+	<style type="text/css">
+		table, th, td {
+		  border: 1px solid black;
+		  padding: 5px;
+		}
+	</style>
+</header>
+<body>
+	<div style="float:left; font-size:xx-large;">
+            <table id="event_list"></table>
+	</div>
+</body>
+<footer>
+      <script type="text/javascript">
+      		var mommyCashDays = [];
+            mommyCashDays["2021-01-12"] = { ammount:220, note:"First Mommy Cash Day"};
+            mommyCashDays["2021-01-13"] = {ammount:20, note:"Second Mommy Cash Day"};
+            mommyCashDays["2021-01-14"] = {ammount:100, note:"Good Job Cleaning Today"};
+            mommyCashDays["2021-01-15"] = {ammount:20, note:"Example Note Here"};
+            mommyCashDays["2021-01-16"] = {ammount:-10, note:"penalty for goofing!!"};
+            mommyCashDays["2021-01-17"] = {ammount:20, note:"Example Note Here"};
+
+
+            var events = "<tr><td colspan=\"3\">Mommy Cash Events!!</td></tr>";
+            var totalMommyCash = 0;
+            for (var key in mommyCashDays) 
+            {
+                  events+="<tr><td>" + key + "</td>";
+                  events+="<td>" + mommyCashDays[key].ammount + "</td>";
+                  events+="<td>" + mommyCashDays[key].note + "</td></tr>";
+
+                  totalMommyCash+= mommyCashDays[key].ammount;
+            }
+            events+= "<tr><td colspan=\"3\">Total Mommy Cash = " + totalMommyCash + "</td></tr>";
+            document.getElementById('event_list').innerHTML = events;
+      </script>   
+</footer>
+</html>
