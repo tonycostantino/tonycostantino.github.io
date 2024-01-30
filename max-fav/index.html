@@ -3,8 +3,9 @@
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<title>Costantino Kid's Favorites</title>
 </header>
-<body>
+<body onload="myFunction(false)">
 	<div style="float:left; font-size:x-large">
+		<input type="button" id="randomVideo" value="Pick Random Video" onclick="myFunction(true)" />
 		<ul>
 			<li><a href="funny-cat-video.html">Funny Cat Video</a></li>
 		</ul>
@@ -15,134 +16,151 @@
 
 <footer>
 	<script type="text/javascript">
-		var videos = [];
+		function myFunction(pickRandom) {
+			var videos = [];
 
 
-		videos["Alice Cooper - No More Mr Nice Guy"] = "PE1vGT-hlLI";
-		videos["Black Eyed Peas, J Balvin - RITMO"] = "EzKkl64rRbM";
-		videos["Beach Boys - Little Deuce Coupe"] = "piKfnqIxggE";
-		videos["Beach House - Space Song"] = "RBtlPT23PTM";
-		videos["Bobby Day - Rockin Robin"] = "E6yGhe2gQxw";
-		videos["Boston - Peace of Mind"] = "Q5ZL8qvEmR0";
-		videos["Batman - Let's get nuts"] = "L9ScWnmjpMk";
-		videos["Chuck Berry - Johnny B. Goode"] = "Uf4rxCB4lys";
-		videos["Counting Crows - A Long December"] = "1D5PtyrewSs";
-		videos["Chilis babyback ribs"] = "y1XfGTO2vh8";
-		videos["David Guetta - Memories"] = "eS7SqmtUQ2s";
-		videos["DJ Snake, Lil Jon - Turn Down for What"] = "QFy0hQ3lY-w";
-		videos["Dua Lipa - Don't Start Now"] = "oygrmJFKYZY";
-		videos["DVBBS & Borgeous - TSUNAMI"] = "0EWbonj7f18";
-		videos["Dwayne Johnson - You're Welcome (From Moana)"] = "79DijItQXMM";
-		videos["Europe - The Final Countdown"] = "9jK-NcRmVcw";
-		videos["El Chombo - Dame Tu Cosita"] = "FzG4uDgje3M";
-		videos["FZ150 - Fatman"] = "BXJgWrSlivQ";
-		videos["Gangnam Style"] = "9bZkp7q19f0";
-		videos["GigaChad Theme"] = "c7TNPiryDyg";
-		videos["Glass Animals - Heat Waves"] = "KT7F15T9VBI";
-		videos["Glass Animals - Heat Waves - Wagon Boy"] = "mRD0-GxqHVo";
+			videos["Alice Cooper - No More Mr Nice Guy"] = "PE1vGT-hlLI";
+			videos["Black Eyed Peas, J Balvin - RITMO"] = "EzKkl64rRbM";
+			videos["Beach Boys - Little Deuce Coupe"] = "piKfnqIxggE";
+			videos["Beach House - Space Song"] = "RBtlPT23PTM";
+			videos["Bobby Day - Rockin Robin"] = "E6yGhe2gQxw";
+			videos["Boston - Peace of Mind"] = "Q5ZL8qvEmR0";
+			videos["Batman - Let's get nuts"] = "L9ScWnmjpMk";
+			videos["Chuck Berry - Johnny B. Goode"] = "Uf4rxCB4lys";
+			videos["Counting Crows - A Long December"] = "1D5PtyrewSs";
+			videos["Chilis babyback ribs"] = "y1XfGTO2vh8";
+			videos["David Guetta - Memories"] = "eS7SqmtUQ2s";
+			videos["DJ Snake, Lil Jon - Turn Down for What"] = "QFy0hQ3lY-w";
+			videos["Dua Lipa - Don't Start Now"] = "oygrmJFKYZY";
+			videos["DVBBS & Borgeous - TSUNAMI"] = "0EWbonj7f18";
+			videos["Dwayne Johnson - You're Welcome (From Moana)"] = "79DijItQXMM";
+			videos["Europe - The Final Countdown"] = "9jK-NcRmVcw";
+			videos["El Chombo - Dame Tu Cosita"] = "FzG4uDgje3M";
+			videos["FZ150 - Fatman"] = "BXJgWrSlivQ";
+			videos["Gangnam Style"] = "9bZkp7q19f0";
+			videos["GigaChad Theme"] = "c7TNPiryDyg";
+			videos["Glass Animals - Heat Waves"] = "KT7F15T9VBI";
+			videos["Glass Animals - Heat Waves - Wagon Boy"] = "mRD0-GxqHVo";
 
-		videos["Harry Styles - As It Was"] = "uXapuO0tgmc";
-		videos["Homer's Brain"] = "H3KpR6EyZX0";
-		videos["Hungry Shark - Defeat the Crab"] = "DGZT-zKMD5w";
-		videos["Iggy Azalea - Black Widow"] = "u3u22OYqFGo";
-		videos["Jack Black - Peaches"] = "aW7bzd8uwyQ";
-		videos["Lego Batman Movie - Friends Are Family"] = "PkVzUEL0OI8";
-		videos["Old Town Road"] = "w2Ov5jzm3j8";
-		videos["Kenny Loggins - Footloose"] = "ltrMfT4Qz5Y";
-		videos["Kool & The Gang - Summer Madness"] = "2SFt7JHwJeg";
-		videos["Lil Yachty - Poland"] = "s9PzYuVwCSE";
-		videos["Lil Uzi Vert - Just Wanna Rock"] = "UhbixyxgsiU";
-		videos["Listen And Move - Snake"] = "j24_xH5uvdA";
-		
-		videos["Marshmello - Alone"] = "ALZHF5UqnU4";
-		videos["Marshmello - Alone Fartnite"] = "UNB8F0ObA4g";
-		videos["Marshmello - Blocks"] = "5E4ZBSInqUU";
-		videos["Marshmello - Check This Out"] = "D8tA6KGgmJE";
-		videos["Marshmello - Eternal"] = "vk4KFB5GDVI";
-		videos["Marshmello - Fly"] = "oRArmtMA9AI";
-		videos["Marshmello - Flashbacks"] = "Lj-_mD0w474";
-		videos["Marshmello - Imagine"] = "dUweAQ38Ed8";
-		videos["Marshmello - Keep it Mello"] = "mKzLoZFz8PE";
-		videos["Marshmello - Love u"] = "D-pKeb6Wf4U";
-		videos["Marshmello - Moving On"] = "yU0tnrEk8H4";
-		videos["Marshmello - Power"] = "KUaVjms6yyY";
-		videos["Marshmello - Ritual ft Wrabel"] = "p2OF2BkoYTg";
-		videos["Marshmello - Rooftops"] = "1N3vUlC5354";
-		videos["Marshmello - Shockwave"] = "YH18coS7c9E";
-		videos["Marshmello - Stars"] = "A57B7B6w3kw";
-		videos["Marshmello - Summer"] = "2vMH8lITTCE";
-		videos["Marshmello - Take it back"] = "P9Ijqa_2eu0";
-		videos["Marshmello - Together"] = "JePnQ1gSagc";
-		videos["Marshmello - Unity"] = "Ktu843qdrWE";
-		videos["Marshmello - Waves"] = "aQC_vD3NOHA";
-		videos["Marshmello - You & Me"] = "fiusxyygqGk";
-		videos["Marshmello x Ray Volpe - Old School"] = "YpXimRm2Pyw";
+			videos["Harry Styles - As It Was"] = "uXapuO0tgmc";
+			videos["Homer's Brain"] = "H3KpR6EyZX0";
+			videos["Hungry Shark - Defeat the Crab"] = "DGZT-zKMD5w";
+			videos["Iggy Azalea - Black Widow"] = "u3u22OYqFGo";
+			videos["Jack Black - Peaches"] = "aW7bzd8uwyQ";
+			videos["Lego Batman Movie - Friends Are Family"] = "PkVzUEL0OI8";
+			videos["Old Town Road"] = "w2Ov5jzm3j8";
+			videos["Kenny Loggins - Footloose"] = "ltrMfT4Qz5Y";
+			videos["Kool & The Gang - Summer Madness"] = "2SFt7JHwJeg";
+			videos["Lil Yachty - Poland"] = "s9PzYuVwCSE";
+			videos["Lil Uzi Vert - Just Wanna Rock"] = "UhbixyxgsiU";
+			videos["Listen And Move - Snake"] = "j24_xH5uvdA";
+			
+			videos["Marshmello - Alone"] = "ALZHF5UqnU4";
+			videos["Marshmello - Alone Fartnite"] = "UNB8F0ObA4g";
+			videos["Marshmello - Blocks"] = "5E4ZBSInqUU";
+			videos["Marshmello - Check This Out"] = "D8tA6KGgmJE";
+			videos["Marshmello - Eternal"] = "vk4KFB5GDVI";
+			videos["Marshmello - Fly"] = "oRArmtMA9AI";
+			videos["Marshmello - Flashbacks"] = "Lj-_mD0w474";
+			videos["Marshmello - Imagine"] = "dUweAQ38Ed8";
+			videos["Marshmello - Keep it Mello"] = "mKzLoZFz8PE";
+			videos["Marshmello - Love u"] = "D-pKeb6Wf4U";
+			videos["Marshmello - Moving On"] = "yU0tnrEk8H4";
+			videos["Marshmello - Power"] = "KUaVjms6yyY";
+			videos["Marshmello - Ritual ft Wrabel"] = "p2OF2BkoYTg";
+			videos["Marshmello - Rooftops"] = "1N3vUlC5354";
+			videos["Marshmello - Shockwave"] = "YH18coS7c9E";
+			videos["Marshmello - Stars"] = "A57B7B6w3kw";
+			videos["Marshmello - Summer"] = "2vMH8lITTCE";
+			videos["Marshmello - Take it back"] = "P9Ijqa_2eu0";
+			videos["Marshmello - Together"] = "JePnQ1gSagc";
+			videos["Marshmello - Unity"] = "Ktu843qdrWE";
+			videos["Marshmello - Waves"] = "aQC_vD3NOHA";
+			videos["Marshmello - You & Me"] = "fiusxyygqGk";
+			videos["Marshmello x Ray Volpe - Old School"] = "YpXimRm2Pyw";
 
 
-		videos["Max Books"] = "uQ0zWDnyy70";
-		videos["Mavis Fan"] = "AjFdJZF2kVg";
-		videos["Maroon 5 - Memories"] = "SlPhMPnQ58k";
-		videos["Meduza, Becky Hill, Goodboys - Lose Control"] = "-3P2USPFDcE";
-		videos["Minions - YMCA"] = "JmpTf7Ala2g";
-		videos["Minecraft songs"] = "IOBXxVQRBgI";
-		videos["Minecraft Songs - HEROBRINE'S LIFE"] = "Kicn--Aea0s";
-		videos["Meduza - Piece Of Your Heart ft. Goodboys"] = "KE2SSftvFU4";
-		videos["Mo Beats - Righteous"] = "wBhMoxeGtHM";
-		videos["Most Subscribed Youtube Channels 2005-2023"] = "DNaqCeIexjo";
-		videos["Oliver Tree & Robin Schulz - Miss You"] = "EipgOEBtyag";
-		videos["Post Malone - Circles"] = "wXhTHyIgQ_U";
-		videos["Post Malone - White Iverson"] = "SLsTskih7_I";
-		videos["Red Hot Chili Peppers - Scar Tissue"] = "mzJj5-lubeM";
-		videos["Red Hot Chili Peppers - Californication"] = "YlUKcNNmywk";
-		videos["Rick Astley - Never Gonna Give You Up"] = "dQw4w9WgXcQ";
-		videos["Robert Miles - Children (Dream Version)"] = "CC5ca6Hsb2Q";
-		videos["Rock N' Roll Is Here To Stay From Grease"] = "pe_RFfME9mc";
-		videos["Skrillex - Have you Ever"] = "r-SurvChGFk";
-		videos["Simpsons - Planet Of The Apes Musical - Dr. Zaius"] = "JlmzUEQxOvA";
-		videos["Snoop Dogg - Boss Life"] = "gKS08HkGMA4";
-		videos["Spongebob - Sweet Victory"] = "k9iYm9PEAHg";
-		videos["Sunflower"] = "ApXoWvfEYVU";
-		videos["Schoolhouse Rock Twos"] = "AilDza95hYc";
-		videos["Schoolhouse Rock Threes"] = "aU4pyiB-kq0";
-		videos["Schoolhouse Rock Fours"] = "NhG9U4S1gbY";
-		videos["Schoolhouse Rock Fives"] = "7VjcUOmPS5k";
-		videos["Schoolhouse Rock Sixes"] = "SCSRI4rzQwI";
-		videos["Schoolhouse Rock Sevens"] = "F4tNQ0Y7SFQ";
-		videos["Schoolhouse Rock Eights"] = "UCGNUo-XQJ8";
-		videos["Schoolhouse Rock Nines"] = "2BgYGHsW8fY";
-		videos["Schoolhouse Rock Eleven"] = "yYUoYJeANq4";
-		videos["Schoolhouse Rock Twelves"] = "_uJsoZheTR4";
-		videos["Slugterra all slugs | 50 slugs of Slugterra"] = "a3GYhz08488";
-		videos["Stardust - Music Sounds Better With You"] = "FQlAEiCb8m0";
-		videos["This is halloween"] = "DOtEdhKOMgQ";
-		videos["Teen Titans - Japanese Intro"] = "mLPkBcL544M";
-		videos["Teen Titans - Larry Song"] = "KV14bDax4_U";
-		videos["Teen Titans Go! - Night Begins To Shine"] = "uR131fc2pZY";
-		videos["Teen Titans Go! - Straight Buggin"] = "qgTYJxs7qVg";
-		videos["Teen Titans Go! - Catchin' Villains"] = "WpbMLLm-Jsc";
-		videos["The Chainsmokers - Something Just Like This"] = "FM7MFYoylVs";
-		videos["THE GOAT"] = "465GqT_EuUA";
-		videos["The Kid LAROI - Stay (Clean - Lyrics) feat. Justin Bieber"] = "sNqRc5pj1sc";
-		videos["The Kiboomers - The Floor Is Lava "] = "wbNAiN8FTfc";
-		videos["The Kiboomers - Freeze Dance"] = "2UcZWXvgMZE";
-		videos["The Kiboomers - Penguins"] = "GcaqrY1hga0";
-		videos["Third Eye Blind - How's It Going To Be"] = "rE1oIhSgTgI";
-		videos["Weekend - Blinding Lights"] = "fHI8X4OXluQ";
-		videos["Weekend - Heartless"] = "1DpH-icPpl0";
-		videos["Weekend - After Hours"] = "ygTZZpVkmKg";
-		videos["Weeknd - Save Your Tears"] = "XXYlFuWEuKI";
-		videos["Van Halen - Jump"] = "SwYN7mTi6HM";
-		videos["Van Halen - Dreams"] = "d5PqVeex4QU";
-		videos["Village People - YMCA"] = "PUoO4T_23pA";
-		videos["VØJ, Narvent - Memory Reboot"] = "wL8DVHuWI7Y";
-		videos["Yakety Yak"] = "epCN0f7FTIY";
+			videos["Max Books"] = "uQ0zWDnyy70";
+			videos["Mavis Fan"] = "AjFdJZF2kVg";
+			videos["Maroon 5 - Memories"] = "SlPhMPnQ58k";
+			videos["Meduza, Becky Hill, Goodboys - Lose Control"] = "-3P2USPFDcE";
+			videos["Minions - YMCA"] = "JmpTf7Ala2g";
+			videos["Minecraft songs"] = "IOBXxVQRBgI";
+			videos["Minecraft Songs - HEROBRINE'S LIFE"] = "Kicn--Aea0s";
+			videos["Meduza - Piece Of Your Heart ft. Goodboys"] = "KE2SSftvFU4";
+			videos["Mo Beats - Righteous"] = "wBhMoxeGtHM";
+			videos["Most Subscribed Youtube Channels 2005-2023"] = "DNaqCeIexjo";
+			videos["Oliver Tree & Robin Schulz - Miss You"] = "EipgOEBtyag";
+			videos["Post Malone - Circles"] = "wXhTHyIgQ_U";
+			videos["Post Malone - White Iverson"] = "SLsTskih7_I";
+			videos["Red Hot Chili Peppers - Scar Tissue"] = "mzJj5-lubeM";
+			videos["Red Hot Chili Peppers - Californication"] = "YlUKcNNmywk";
+			videos["Rick Astley - Never Gonna Give You Up"] = "dQw4w9WgXcQ";
+			videos["Robert Miles - Children (Dream Version)"] = "CC5ca6Hsb2Q";
+			videos["Rock N' Roll Is Here To Stay From Grease"] = "pe_RFfME9mc";
+			videos["Skrillex - Have you Ever"] = "r-SurvChGFk";
+			videos["Simpsons - Planet Of The Apes Musical - Dr. Zaius"] = "JlmzUEQxOvA";
+			videos["Snoop Dogg - Boss Life"] = "gKS08HkGMA4";
+			videos["Spongebob - Sweet Victory"] = "k9iYm9PEAHg";
+			videos["Sunflower"] = "ApXoWvfEYVU";
+			videos["Schoolhouse Rock Twos"] = "AilDza95hYc";
+			videos["Schoolhouse Rock Threes"] = "aU4pyiB-kq0";
+			videos["Schoolhouse Rock Fours"] = "NhG9U4S1gbY";
+			videos["Schoolhouse Rock Fives"] = "7VjcUOmPS5k";
+			videos["Schoolhouse Rock Sixes"] = "SCSRI4rzQwI";
+			videos["Schoolhouse Rock Sevens"] = "F4tNQ0Y7SFQ";
+			videos["Schoolhouse Rock Eights"] = "UCGNUo-XQJ8";
+			videos["Schoolhouse Rock Nines"] = "2BgYGHsW8fY";
+			videos["Schoolhouse Rock Eleven"] = "yYUoYJeANq4";
+			videos["Schoolhouse Rock Twelves"] = "_uJsoZheTR4";
+			videos["Slugterra all slugs | 50 slugs of Slugterra"] = "a3GYhz08488";
+			videos["Stardust - Music Sounds Better With You"] = "FQlAEiCb8m0";
+			videos["This is halloween"] = "DOtEdhKOMgQ";
+			videos["Teen Titans - Japanese Intro"] = "mLPkBcL544M";
+			videos["Teen Titans - Larry Song"] = "KV14bDax4_U";
+			videos["Teen Titans Go! - Night Begins To Shine"] = "uR131fc2pZY";
+			videos["Teen Titans Go! - Straight Buggin"] = "qgTYJxs7qVg";
+			videos["Teen Titans Go! - Catchin' Villains"] = "WpbMLLm-Jsc";
+			videos["The Chainsmokers - Something Just Like This"] = "FM7MFYoylVs";
+			videos["THE GOAT"] = "465GqT_EuUA";
+			videos["The Kid LAROI - Stay (Clean - Lyrics) feat. Justin Bieber"] = "sNqRc5pj1sc";
+			videos["The Kiboomers - The Floor Is Lava "] = "wbNAiN8FTfc";
+			videos["The Kiboomers - Freeze Dance"] = "2UcZWXvgMZE";
+			videos["The Kiboomers - Penguins"] = "GcaqrY1hga0";
+			videos["Third Eye Blind - How's It Going To Be"] = "rE1oIhSgTgI";
+			videos["Weekend - Blinding Lights"] = "fHI8X4OXluQ";
+			videos["Weekend - Heartless"] = "1DpH-icPpl0";
+			videos["Weekend - After Hours"] = "ygTZZpVkmKg";
+			videos["Weeknd - Save Your Tears"] = "XXYlFuWEuKI";
+			videos["Van Halen - Jump"] = "SwYN7mTi6HM";
+			videos["Van Halen - Dreams"] = "d5PqVeex4QU";
+			videos["Village People - YMCA"] = "PUoO4T_23pA";
+			videos["VØJ, Narvent - Memory Reboot"] = "wL8DVHuWI7Y";
+			videos["Yakety Yak"] = "epCN0f7FTIY";
 
-		var youtubelist = "";
-		for (var key in videos) 
-		{
-			youtubelist+="<li><a href=\"youtube.html?youtubeid=" + videos[key] + "&videotitle=" + key + "\">" + key + "</a></li>"
+			if(pickRandom)
+			{
+				const keys = Object.keys(videos);
+				const len = keys.length;
+				const rnd = Math.floor(Math.random() * len);
+				const key = videos[keys[rnd]];
+
+				const youtubeid = key;
+				const videotitle = keys[rnd];
+
+
+				console.log("youtubeid: " + youtubeid);
+				console.log("videotitle: " + videotitle );
+				window.location.href ="youtube.html?youtubeid=" + youtubeid + "&videotitle=" + videotitle;
+			}
+			var youtubelist = "";
+			for (var key in videos) 
+			{
+				youtubelist+="<li><a href=\"youtube.html?youtubeid=" + videos[key] + "&videotitle=" + key + "\">" + key + "</a></li>"
+			}
+			document.getElementById('video_list').innerHTML = youtubelist;
 		}
-		document.getElementById('video_list').innerHTML = youtubelist;
 	</script>
 </footer>
 </html>
