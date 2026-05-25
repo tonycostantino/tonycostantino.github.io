@@ -28,7 +28,7 @@
 			videos["Boston - Peace of Mind"] = "Q5ZL8qvEmR0";
 			videos["Batman - Let's get nuts"] = "L9ScWnmjpMk";
 			videos["Bruno Mars - It Will Rain"] = "W-w3WfgpcGg";
-			videos["Bruno Mars - That’s What I Like"] = "PMivT7MJ41M";
+			videos["Bruno Mars - Thats What I Like"] = "PMivT7MJ41M";
 			videos["Bruno Mars - Risk It All"] = "lY5V4hSLWY8";
 			videos["Bruno Mars and Lady Gaga - Die With A Smile"] = "zgaCZOQCpp8";
 			videos["Bruno Mars and ROSE - APT"] = "ekr2nIex040";
@@ -202,10 +202,13 @@
 				window.location.href ="youtube.html?youtubeid=" + youtubeid + "&videotitle=" + videotitle;
 			}
 			var youtubelist = "";
+			videos.sort((a, b) => a.name.localeCompare(b.name));
 			for (var key in videos) 
 			{
 				youtubelist+="<li><a href=\"youtube.html?youtubeid=" + videos[key] + "&videotitle=" + key + "\">" + key + "</a></li>"
 			}
+
+
 			document.getElementById('video_list').innerHTML = youtubelist;
 		}
 	</script>
