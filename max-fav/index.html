@@ -4,6 +4,13 @@
 	<title>Costantino Kid's Favorites</title>
 </header>
 <body onload="myFunction(false)">
+
+
+	<p id="youtube_title">X</p>
+	<p id="youtube_iframe">
+		<iframe id ="youtube" width="560" height="315" src="X" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	</p>
+
 	<div style="float:left; font-size:x-large">
 		<input type="button" id="randomVideo" value="Pick Random Video" onclick="myFunction(true)" />
 		<ul>
@@ -16,6 +23,22 @@
 
 <footer>
 	<script type="text/javascript">
+		const urlParams = new URLSearchParams(window.location.search);
+
+		const youtubeid = urlParams.get('youtubeid');
+
+		if (youtubeid === null) {
+			document.getElementById('youtube_title').innerHTML = "";
+			document.getElementById('youtube_iframe').innerHTML = "";
+		}
+		else
+		{
+			const videotitle = urlParams.get('videotitle');
+	        document.getElementById('youtube').setAttribute("src", "https://www.youtube.com/embed/" + youtubeid);
+			document.getElementById('youtube_title').innerHTML = videotitle;
+		}
+
+
 		function myFunction(pickRandom) {
 			var videos = [];
 
@@ -197,15 +220,13 @@
 				const videotitle = keys[rnd];
 
 
-				console.log("youtubeid: " + youtubeid);
-				console.log("videotitle: " + videotitle );
-				window.location.href ="youtube.html?youtubeid=" + youtubeid + "&videotitle=" + videotitle;
+				window.location.href ="index.html?youtubeid=" + youtubeid + "&videotitle=" + videotitle;
 			}
 			var youtubelist = "";
 			videos.sort((a, b) => a.name.localeCompare(b.name));
 			for (var key in videos) 
 			{
-				youtubelist+="<li><a href=\"youtube.html?youtubeid=" + videos[key] + "&videotitle=" + key + "\">" + key + "</a></li>"
+				youtubelist+="<li><a href=\"index.html?youtubeid=" + videos[key] + "&videotitle=" + key + "\">" + key + "</a></li>"
 			}
 
 
