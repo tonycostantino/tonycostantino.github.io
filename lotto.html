@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lottery Annuity Tax Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f7f6; padding: 20px; color: #333; }
+        .box { max-width: 900px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .row { display: flex; gap: 15px; margin-bottom: 15px; }
+        .field { flex: 1; display: flex; flex-direction: column; }
+        label { font-weight: bold; margin-bottom: 5px; }
+        select, input { padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .wrap { display: flex; border: 1px solid #ccc; border-radius: 4px; background: #fff; }
+        .wrap input { border: none; flex-grow: 1; outline: none; }
+        .btns { display: flex; flex-direction: column; border-left: 1px solid #ccc; width: 40px; }
+        .btn { background: #f9f9f9; border: none; cursor: pointer; flex: 1; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .btn:hover { background: #eee; }
+        .btn:first-child { border-bottom: 1px solid #ccc; }
+        .go { width: 100%; background: #005a9c; color: #fff; padding: 12px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        .go:hover { background: #004477; }
+        .res { margin-top: 25px; display: none; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f2f2f2; }
+        .total { font-weight: bold; background: #e6f2ff; }
+        .right { text-align: right; }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="field" style="margin-bottom:15px;">
+        <label>Lottery Game</label>
+        <select id="game">
+            <option value="ca">California SuperLotto Plus (26 Yrs, Exp)</option>
+            <option value="mega">Mega Millions (30 Yrs, 5% Linear)</option>
+            <option value="power">Powerball (30 Yrs, 5% Linear)</option>
+        </select>
+    </div>
+    <div class="row">
+        <div class="field">
+            <label>Jackpot ($)</label>
+            <div class="wrap">
+                <input type="text" id="jack" value="100,000,000">
+                <div class="btns">
+                    <button class="btn" onclick="step(1e6)">▲</button>
+                    <button class="btn" onclick="step(-1e6)">▼</button>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label>Tax Rate (%)</label>
+            <input type="number" id="tax" min="0" max="100" value="25">
+        </div>
+    </div>
+    <button class="go" onclick="run()">Generate Schedule</button>
+    <div id="res" class="res">
+        <h3 id="title"></h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment</th>
+                    <th class="right">Payout %</th>
+                    <th class="right">Gross</th>
+                    <th class="right">Tax</th>
+                    <th class="right">Net</th>
+                    <th class="right">Cum. Net</th>
+                </tr>
+            </thead>
+            <tbody id="body"></tbody>
+        </table>
+    </div>
+</div>
+<script>
+const el = document.getElementById("jack");
+const getVal = () => parseFloat(el.value.replace(/,/g, '')) || 0;
+const fmt = (v) => v.toLocaleString('en-US');
+
+el.addEventListener('input', function() {
+    let pos = this.selectionStart, len = this.value.length, v = getVal();
+    this.value = v === 0 ? '' : fmt(v);
+    this.setSelectionRange(pos + (this.value.length - len), pos + (this.value.length - len));
+});
+
+function step(amt) {
+    let v = Math.max(0, getVal() + amt);
+    el.value = fmt(v);
+}
+
+function run() {
+    const g = document.getElementById("game").value;
+    const j = getVal();
+    const t = parseFloat(document.getElementById("tax").value) / 100;
+    if (j <= 0 || isNaN(t) || t < 0 || t > 1) return alert("Invalid inputs.");
+
+    let yrs = g === "ca" ? 26 : 30, arr = [], sum = 0;
+
+    if (g === "ca") {
+        let rate = Math.pow((0.062 / 0.0151), 1 / 25) - 1, cur = 0.0151;
+        for (let i = 1; i <= 26; i++) { arr.push(cur); sum += cur; cur *= (1 + rate); }
+    } else {
+        let base = 1.0;
+        for (let i = 1; i <= 30; i++) { arr.push(base); sum += base; base *= 1.05; }
+    }
+
+    const tbody = document.getElementById("body");
+    tbody.innerHTML = "";
+    let tg = 0, tt = 0, tn = 0, cum = 0;
+
+    for (let i = 1; i <= yrs; i++) {
+        let pct = arr[i - 1] / sum, gross = j * pct, tax = gross * t, net = gross - tax;
+        tg += gross; tt += tax; tn += net; cum += net;
+        tbody.innerHTML += `<tr>
+            <td>Year ${i}</td>
+            <td class="right">${(pct * 100).toFixed(2)}%</td>
+            <td class="right">$${fmt(gross)}</td>
+            <td class="right" style="color:#c0392b;">$${fmt(tax)}</td>
+            <td class="right" style="color:#27ae60;">$${fmt(net)}</td>
+            <td class="right">$${fmt(cum)}</td>
+        </tr>`;
+    }
+
+    tbody.innerHTML += `<tr class="total">
+        <td>Total</td>
+        <td class="right">100.00%</td>
+        <td class="right">$${fmt(tg)}</td>
+        <td class="right" style="color:#c0392b;">$${fmt(tt)}</td>
+        <td class="right" style="color:#27ae60;">$${fmt(tn)}</td>
+        <td class="right">$${fmt(cum)}</td>
+    </tr>`;
+
+    const names = { ca: "California SuperLotto Plus", mega: "Mega Millions", power: "Powerball" };
+    document.getElementById("title").innerText = names[g] + " Schedule";
+    document.getElementById("res").style.display = "block";
+}
+</script>
+</body>
+</html>
